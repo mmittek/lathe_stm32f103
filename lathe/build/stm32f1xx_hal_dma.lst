@@ -1,0 +1,3279 @@
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"stm32f1xx_hal_dma.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.HAL_DMA_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	HAL_DMA_Init
+  22              		.thumb
+  23              		.thumb_func
+  25              	HAL_DMA_Init:
+  26              	.LFB64:
+  27              		.file 1 "Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c"
+   1:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+   2:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   ******************************************************************************
+   3:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @file    stm32f1xx_hal_dma.c
+   4:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @author  MCD Application Team
+   5:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief   DMA HAL module driver.
+   6:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *         This file provides firmware functions to manage the following
+   7:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *         functionalities of the Direct Memory Access (DMA) peripheral:
+   8:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *           + Initialization and de-initialization functions
+   9:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *           + IO operation functions
+  10:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *           + Peripheral State and errors functions
+  11:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   @verbatim
+  12:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   ==============================================================================
+  13:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                         ##### How to use this driver #####
+  14:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   ==============================================================================
+  15:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   [..]
+  16:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    (#) Enable and configure the peripheral to be connected to the DMA Channel
+  17:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (except for internal SRAM / FLASH memories: no initialization is 
+  18:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        necessary). Please refer to the Reference manual for connection between peripherals
+  19:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        and DMA requests.
+  20:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  21:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    (#) For a given Channel, program the required configuration through the following parameters:
+  22:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        Channel request, Transfer Direction, Source and Destination data formats,
+  23:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        Circular or Normal mode, Channel Priority level, Source and Destination Increment mode
+  24:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        using HAL_DMA_Init() function.
+  25:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  26:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    (#) Use HAL_DMA_GetState() function to return the DMA state and HAL_DMA_GetError() in case of er
+  27:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        detection.
+  28:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                     
+  29:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    (#) Use HAL_DMA_Abort() function to abort the current transfer
+  30:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                    
+  31:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      -@-   In Memory-to-Memory transfer mode, Circular mode is not allowed.
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 2
+
+
+  32:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      *** Polling mode IO operation ***
+  33:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      =================================
+  34:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
+  35:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Use HAL_DMA_Start() to start DMA transfer after the configuration of Source
+  36:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               address and destination address and the Length of data to be transferred
+  37:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Use HAL_DMA_PollForTransfer() to poll for the end of current transfer, in this
+  38:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               case a fixed Timeout can be configured by User depending from his application.
+  39:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  40:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      *** Interrupt mode IO operation ***
+  41:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      ===================================
+  42:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
+  43:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Configure the DMA interrupt priority using HAL_NVIC_SetPriority()
+  44:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Enable the DMA IRQ handler using HAL_NVIC_EnableIRQ()
+  45:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Use HAL_DMA_Start_IT() to start DMA transfer after the configuration of
+  46:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               Source address and destination address and the Length of data to be transferred.
+  47:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               In this case the DMA interrupt is configured
+  48:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) Use HAL_DMA_IRQHandler() called under DMA_IRQHandler() Interrupt subroutine
+  49:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           (+) At the end of data transfer HAL_DMA_IRQHandler() function is executed and user can
+  50:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               add his own function by customization of function pointer XferCpltCallback and
+  51:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****               XferErrorCallback (i.e. a member of DMA handle structure).
+  52:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  53:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      *** DMA HAL driver macros list ***
+  54:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      ============================================= 
+  55:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       [..]
+  56:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        Below the list of most used macros in DMA HAL driver.
+  57:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  58:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_ENABLE: Enable the specified DMA Channel.
+  59:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_DISABLE: Disable the specified DMA Channel.
+  60:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_GET_FLAG: Get the DMA Channel pending flags.
+  61:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_CLEAR_FLAG: Clear the DMA Channel pending flags.
+  62:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_ENABLE_IT: Enable the specified DMA Channel interrupts.
+  63:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_DISABLE_IT: Disable the specified DMA Channel interrupts.
+  64:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****        (+) __HAL_DMA_GET_IT_SOURCE: Check whether the specified DMA Channel interrupt has occurred 
+  65:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  66:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      [..] 
+  67:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (@) You can refer to the DMA HAL driver header file for more useful macros  
+  68:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+  69:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   @endverbatim
+  70:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   ******************************************************************************
+  71:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @attention
+  72:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+  73:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
+  74:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+  75:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  76:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * are permitted provided that the following conditions are met:
+  77:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  78:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *      this list of conditions and the following disclaimer.
+  79:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  80:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *      this list of conditions and the following disclaimer in the documentation
+  81:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *      and/or other materials provided with the distribution.
+  82:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  83:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *      may be used to endorse or promote products derived from this software
+  84:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *      without specific prior written permission.
+  85:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+  86:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  87:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  88:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 3
+
+
+  89:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  90:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  91:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  92:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  93:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  94:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  95:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  96:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+  97:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   ******************************************************************************
+  98:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+  99:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 100:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Includes ------------------------------------------------------------------*/
+ 101:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #include "stm32f1xx_hal.h"
+ 102:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 103:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @addtogroup STM32F1xx_HAL_Driver
+ 104:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 105:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 106:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 107:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA DMA
+ 108:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief DMA HAL module driver
+ 109:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 110:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 111:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 112:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #ifdef HAL_DMA_MODULE_ENABLED
+ 113:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 114:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Private typedef -----------------------------------------------------------*/
+ 115:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Private define ------------------------------------------------------------*/
+ 116:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Private macro -------------------------------------------------------------*/
+ 117:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Private variables ---------------------------------------------------------*/
+ 118:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Private function prototypes -----------------------------------------------*/
+ 119:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA_Private_Functions DMA Private Functions
+ 120:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 121:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 122:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32
+ 123:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 124:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @}
+ 125:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 126:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 127:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /* Exported functions ---------------------------------------------------------*/
+ 128:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 129:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions DMA Exported Functions
+ 130:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 131:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 132:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 133:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions_Group1 Initialization and de-initialization functions
+ 134:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *  @brief   Initialization and de-initialization functions 
+ 135:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+ 136:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @verbatim
+ 137:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================
+ 138:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****              ##### Initialization and de-initialization functions  #####
+ 139:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================
+ 140:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
+ 141:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     This section provides functions allowing to initialize the DMA Channel source
+ 142:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     and destination addresses, incrementation and data sizes, transfer direction, 
+ 143:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     circular/normal mode selection, memory-to-memory mode selection and Channel priority value.
+ 144:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
+ 145:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     The HAL_DMA_Init() function follows the DMA configuration procedures as described in
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 4
+
+
+ 146:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     reference manual.  
+ 147:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 148:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @endverbatim
+ 149:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 150:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 151:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 152:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 153:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Initialize the DMA according to the specified
+ 154:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *         parameters in the DMA_InitTypeDef and initialize the associated handle.
+ 155:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: Pointer to a DMA_HandleTypeDef structure that contains
+ 156:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 157:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 158:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 159:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Init(DMA_HandleTypeDef *hdma)
+ 160:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+  28              		.loc 1 160 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 7, -4
+  37 0002 85B0     		sub	sp, sp, #20
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 24
+  40 0004 00AF     		add	r7, sp, #0
+  41              	.LCFI2:
+  42              		.cfi_def_cfa_register 7
+  43 0006 7860     		str	r0, [r7, #4]
+ 161:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   uint32_t tmp = 0U;
+  44              		.loc 1 161 0
+  45 0008 0023     		movs	r3, #0
+  46 000a FB60     		str	r3, [r7, #12]
+ 162:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 163:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the DMA handle allocation */
+ 164:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(hdma == NULL)
+  47              		.loc 1 164 0
+  48 000c 7B68     		ldr	r3, [r7, #4]
+  49 000e 002B     		cmp	r3, #0
+  50 0010 01D1     		bne	.L2
+ 165:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 166:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     return HAL_ERROR;
+  51              		.loc 1 166 0
+  52 0012 0123     		movs	r3, #1
+  53 0014 4FE0     		b	.L3
+  54              	.L2:
+ 167:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 168:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 169:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the parameters */
+ 170:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
+ 171:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_DIRECTION(hdma->Init.Direction));
+ 172:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_PERIPHERAL_INC_STATE(hdma->Init.PeriphInc));
+ 173:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_MEMORY_INC_STATE(hdma->Init.MemInc));
+ 174:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(hdma->Init.PeriphDataAlignment));
+ 175:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_MEMORY_DATA_SIZE(hdma->Init.MemDataAlignment));
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 5
+
+
+ 176:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_MODE(hdma->Init.Mode));
+ 177:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_PRIORITY(hdma->Init.Priority));
+ 178:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 179:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #if defined (STM32F101xE) || defined (STM32F101xG) || defined (STM32F103xE) || defined (STM32F103xG
+ 180:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* calculation of the channel index */
+ 181:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if ((uint32_t)(hdma->Instance) < (uint32_t)(DMA2_Channel1))
+ 182:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 183:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* DMA1 */
+ 184:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA1_Channel1) / ((uint32_t)DMA1_Ch
+ 185:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA1;
+ 186:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 187:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else 
+ 188:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 189:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* DMA2 */
+ 190:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA2_Channel1) / ((uint32_t)DMA2_Ch
+ 191:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA2;
+ 192:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 193:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #else
+ 194:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* DMA1 */
+ 195:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA1_Channel1) / ((uint32_t)DMA1_Chan
+  55              		.loc 1 195 0
+  56 0016 7B68     		ldr	r3, [r7, #4]
+  57 0018 1B68     		ldr	r3, [r3]
+  58 001a 1A46     		mov	r2, r3
+  59 001c 284B     		ldr	r3, .L4
+  60 001e 1344     		add	r3, r3, r2
+  61 0020 284A     		ldr	r2, .L4+4
+  62 0022 A2FB0323 		umull	r2, r3, r2, r3
+  63 0026 1B09     		lsrs	r3, r3, #4
+  64 0028 9A00     		lsls	r2, r3, #2
+  65 002a 7B68     		ldr	r3, [r7, #4]
+  66 002c 1A64     		str	r2, [r3, #64]
+ 196:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->DmaBaseAddress = DMA1;
+  67              		.loc 1 196 0
+  68 002e 7B68     		ldr	r3, [r7, #4]
+  69 0030 254A     		ldr	r2, .L4+8
+  70 0032 DA63     		str	r2, [r3, #60]
+ 197:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #endif /* STM32F101xE || STM32F101xG || STM32F103xE || STM32F103xG || STM32F100xE || STM32F105xC ||
+ 198:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 199:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Change DMA peripheral state */
+ 200:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_BUSY;
+  71              		.loc 1 200 0
+  72 0034 7B68     		ldr	r3, [r7, #4]
+  73 0036 0222     		movs	r2, #2
+  74 0038 83F82120 		strb	r2, [r3, #33]
+ 201:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 202:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Get the CR register value */
+ 203:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   tmp = hdma->Instance->CCR;
+  75              		.loc 1 203 0
+  76 003c 7B68     		ldr	r3, [r7, #4]
+  77 003e 1B68     		ldr	r3, [r3]
+  78 0040 1B68     		ldr	r3, [r3]
+  79 0042 FB60     		str	r3, [r7, #12]
+ 204:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 205:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Clear PL, MSIZE, PSIZE, MINC, PINC, CIRC and DIR bits */
+ 206:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   tmp &= ((uint32_t)~(DMA_CCR_PL    | DMA_CCR_MSIZE  | DMA_CCR_PSIZE  | \
+  80              		.loc 1 206 0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 6
+
+
+  81 0044 FB68     		ldr	r3, [r7, #12]
+  82 0046 23F47F53 		bic	r3, r3, #16320
+  83 004a 23F03003 		bic	r3, r3, #48
+  84 004e FB60     		str	r3, [r7, #12]
+ 207:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                       DMA_CCR_MINC  | DMA_CCR_PINC   | DMA_CCR_CIRC   | \
+ 208:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                       DMA_CCR_DIR));
+ 209:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 210:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Prepare the DMA Channel configuration */
+ 211:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   tmp |=  hdma->Init.Direction        |
+  85              		.loc 1 211 0
+  86 0050 7B68     		ldr	r3, [r7, #4]
+  87 0052 5A68     		ldr	r2, [r3, #4]
+ 212:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphInc           | hdma->Init.MemInc           |
+  88              		.loc 1 212 0
+  89 0054 7B68     		ldr	r3, [r7, #4]
+  90 0056 9B68     		ldr	r3, [r3, #8]
+ 211:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphInc           | hdma->Init.MemInc           |
+  91              		.loc 1 211 0
+  92 0058 1A43     		orrs	r2, r2, r3
+  93              		.loc 1 212 0
+  94 005a 7B68     		ldr	r3, [r7, #4]
+  95 005c DB68     		ldr	r3, [r3, #12]
+  96 005e 1A43     		orrs	r2, r2, r3
+ 213:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphDataAlignment | hdma->Init.MemDataAlignment |
+  97              		.loc 1 213 0
+  98 0060 7B68     		ldr	r3, [r7, #4]
+  99 0062 1B69     		ldr	r3, [r3, #16]
+ 212:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphInc           | hdma->Init.MemInc           |
+ 100              		.loc 1 212 0
+ 101 0064 1A43     		orrs	r2, r2, r3
+ 102              		.loc 1 213 0
+ 103 0066 7B68     		ldr	r3, [r7, #4]
+ 104 0068 5B69     		ldr	r3, [r3, #20]
+ 105 006a 1A43     		orrs	r2, r2, r3
+ 214:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.Mode                | hdma->Init.Priority;
+ 106              		.loc 1 214 0
+ 107 006c 7B68     		ldr	r3, [r7, #4]
+ 108 006e 9B69     		ldr	r3, [r3, #24]
+ 213:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphDataAlignment | hdma->Init.MemDataAlignment |
+ 109              		.loc 1 213 0
+ 110 0070 1A43     		orrs	r2, r2, r3
+ 111              		.loc 1 214 0
+ 112 0072 7B68     		ldr	r3, [r7, #4]
+ 113 0074 DB69     		ldr	r3, [r3, #28]
+ 114 0076 1343     		orrs	r3, r3, r2
+ 211:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           hdma->Init.PeriphInc           | hdma->Init.MemInc           |
+ 115              		.loc 1 211 0
+ 116 0078 FA68     		ldr	r2, [r7, #12]
+ 117 007a 1343     		orrs	r3, r3, r2
+ 118 007c FB60     		str	r3, [r7, #12]
+ 215:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 216:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Write to DMA Channel CR register */
+ 217:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CCR = tmp;
+ 119              		.loc 1 217 0
+ 120 007e 7B68     		ldr	r3, [r7, #4]
+ 121 0080 1B68     		ldr	r3, [r3]
+ 122 0082 FA68     		ldr	r2, [r7, #12]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 7
+
+
+ 123 0084 1A60     		str	r2, [r3]
+ 218:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 219:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 220:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Clean callbacks */
+ 221:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->XferCpltCallback = NULL;
+ 124              		.loc 1 221 0
+ 125 0086 7B68     		ldr	r3, [r7, #4]
+ 126 0088 0022     		movs	r2, #0
+ 127 008a 9A62     		str	r2, [r3, #40]
+ 222:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->XferHalfCpltCallback = NULL;
+ 128              		.loc 1 222 0
+ 129 008c 7B68     		ldr	r3, [r7, #4]
+ 130 008e 0022     		movs	r2, #0
+ 131 0090 DA62     		str	r2, [r3, #44]
+ 223:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->XferErrorCallback = NULL;
+ 132              		.loc 1 223 0
+ 133 0092 7B68     		ldr	r3, [r7, #4]
+ 134 0094 0022     		movs	r2, #0
+ 135 0096 1A63     		str	r2, [r3, #48]
+ 224:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->XferAbortCallback = NULL;
+ 136              		.loc 1 224 0
+ 137 0098 7B68     		ldr	r3, [r7, #4]
+ 138 009a 0022     		movs	r2, #0
+ 139 009c 5A63     		str	r2, [r3, #52]
+ 225:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 226:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Initialise the error code */
+ 227:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->ErrorCode = HAL_DMA_ERROR_NONE;
+ 140              		.loc 1 227 0
+ 141 009e 7B68     		ldr	r3, [r7, #4]
+ 142 00a0 0022     		movs	r2, #0
+ 143 00a2 9A63     		str	r2, [r3, #56]
+ 228:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 229:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Initialize the DMA state*/
+ 230:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_READY;
+ 144              		.loc 1 230 0
+ 145 00a4 7B68     		ldr	r3, [r7, #4]
+ 146 00a6 0122     		movs	r2, #1
+ 147 00a8 83F82120 		strb	r2, [r3, #33]
+ 231:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Allocate lock resource and initialize it */
+ 232:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Lock = HAL_UNLOCKED;
+ 148              		.loc 1 232 0
+ 149 00ac 7B68     		ldr	r3, [r7, #4]
+ 150 00ae 0022     		movs	r2, #0
+ 151 00b0 83F82020 		strb	r2, [r3, #32]
+ 233:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 234:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return HAL_OK;
+ 152              		.loc 1 234 0
+ 153 00b4 0023     		movs	r3, #0
+ 154              	.L3:
+ 235:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 155              		.loc 1 235 0
+ 156 00b6 1846     		mov	r0, r3
+ 157 00b8 1437     		adds	r7, r7, #20
+ 158              	.LCFI3:
+ 159              		.cfi_def_cfa_offset 4
+ 160 00ba BD46     		mov	sp, r7
+ 161              	.LCFI4:
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 8
+
+
+ 162              		.cfi_def_cfa_register 13
+ 163              		@ sp needed
+ 164 00bc 80BC     		pop	{r7}
+ 165              	.LCFI5:
+ 166              		.cfi_restore 7
+ 167              		.cfi_def_cfa_offset 0
+ 168 00be 7047     		bx	lr
+ 169              	.L5:
+ 170              		.align	2
+ 171              	.L4:
+ 172 00c0 F8FFFDBF 		.word	-1073872904
+ 173 00c4 CDCCCCCC 		.word	-858993459
+ 174 00c8 00000240 		.word	1073872896
+ 175              		.cfi_endproc
+ 176              	.LFE64:
+ 178              		.section	.text.HAL_DMA_DeInit,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	HAL_DMA_DeInit
+ 181              		.thumb
+ 182              		.thumb_func
+ 184              	HAL_DMA_DeInit:
+ 185              	.LFB65:
+ 236:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 237:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 238:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  DeInitialize the DMA peripheral.
+ 239:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 240:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 241:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 242:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 243:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
+ 244:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 186              		.loc 1 244 0
+ 187              		.cfi_startproc
+ 188              		@ args = 0, pretend = 0, frame = 8
+ 189              		@ frame_needed = 1, uses_anonymous_args = 0
+ 190              		@ link register save eliminated.
+ 191 0000 80B4     		push	{r7}
+ 192              	.LCFI6:
+ 193              		.cfi_def_cfa_offset 4
+ 194              		.cfi_offset 7, -4
+ 195 0002 83B0     		sub	sp, sp, #12
+ 196              	.LCFI7:
+ 197              		.cfi_def_cfa_offset 16
+ 198 0004 00AF     		add	r7, sp, #0
+ 199              	.LCFI8:
+ 200              		.cfi_def_cfa_register 7
+ 201 0006 7860     		str	r0, [r7, #4]
+ 245:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the DMA handle allocation */
+ 246:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(hdma == NULL)
+ 202              		.loc 1 246 0
+ 203 0008 7B68     		ldr	r3, [r7, #4]
+ 204 000a 002B     		cmp	r3, #0
+ 205 000c 01D1     		bne	.L7
+ 247:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 248:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     return HAL_ERROR;
+ 206              		.loc 1 248 0
+ 207 000e 0123     		movs	r3, #1
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 9
+
+
+ 208 0010 3AE0     		b	.L8
+ 209              	.L7:
+ 249:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 250:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 251:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the parameters */
+ 252:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
+ 253:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 254:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Disable the selected DMA Channelx */
+ 255:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_DMA_DISABLE(hdma);
+ 210              		.loc 1 255 0
+ 211 0012 7B68     		ldr	r3, [r7, #4]
+ 212 0014 1B68     		ldr	r3, [r3]
+ 213 0016 7A68     		ldr	r2, [r7, #4]
+ 214 0018 1268     		ldr	r2, [r2]
+ 215 001a 1268     		ldr	r2, [r2]
+ 216 001c 22F00102 		bic	r2, r2, #1
+ 217 0020 1A60     		str	r2, [r3]
+ 256:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 257:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Reset DMA Channel control register */
+ 258:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CCR  = 0U;
+ 218              		.loc 1 258 0
+ 219 0022 7B68     		ldr	r3, [r7, #4]
+ 220 0024 1B68     		ldr	r3, [r3]
+ 221 0026 0022     		movs	r2, #0
+ 222 0028 1A60     		str	r2, [r3]
+ 259:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 260:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Reset DMA Channel Number of Data to Transfer register */
+ 261:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CNDTR = 0U;
+ 223              		.loc 1 261 0
+ 224 002a 7B68     		ldr	r3, [r7, #4]
+ 225 002c 1B68     		ldr	r3, [r3]
+ 226 002e 0022     		movs	r2, #0
+ 227 0030 5A60     		str	r2, [r3, #4]
+ 262:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 263:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Reset DMA Channel peripheral address register */
+ 264:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CPAR  = 0U;
+ 228              		.loc 1 264 0
+ 229 0032 7B68     		ldr	r3, [r7, #4]
+ 230 0034 1B68     		ldr	r3, [r3]
+ 231 0036 0022     		movs	r2, #0
+ 232 0038 9A60     		str	r2, [r3, #8]
+ 265:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 266:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Reset DMA Channel memory address register */
+ 267:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CMAR = 0U;
+ 233              		.loc 1 267 0
+ 234 003a 7B68     		ldr	r3, [r7, #4]
+ 235 003c 1B68     		ldr	r3, [r3]
+ 236 003e 0022     		movs	r2, #0
+ 237 0040 DA60     		str	r2, [r3, #12]
+ 268:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 269:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #if defined (STM32F101xE) || defined (STM32F101xG) || defined (STM32F103xE) || defined (STM32F103xG
+ 270:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* calculation of the channel index */
+ 271:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if ((uint32_t)(hdma->Instance) < (uint32_t)(DMA2_Channel1))
+ 272:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 273:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* DMA1 */
+ 274:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA1_Channel1) / ((uint32_t)DMA1_Ch
+ 275:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA1;
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 10
+
+
+ 276:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 277:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else 
+ 278:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 279:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* DMA2 */
+ 280:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA2_Channel1) / ((uint32_t)DMA2_Ch
+ 281:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->DmaBaseAddress = DMA2;
+ 282:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 283:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #else
+ 284:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* DMA1 */
+ 285:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->ChannelIndex = (((uint32_t)hdma->Instance - (uint32_t)DMA1_Channel1) / ((uint32_t)DMA1_Chan
+ 238              		.loc 1 285 0
+ 239 0042 7B68     		ldr	r3, [r7, #4]
+ 240 0044 1B68     		ldr	r3, [r3]
+ 241 0046 1A46     		mov	r2, r3
+ 242 0048 124B     		ldr	r3, .L9
+ 243 004a 1344     		add	r3, r3, r2
+ 244 004c 124A     		ldr	r2, .L9+4
+ 245 004e A2FB0323 		umull	r2, r3, r2, r3
+ 246 0052 1B09     		lsrs	r3, r3, #4
+ 247 0054 9A00     		lsls	r2, r3, #2
+ 248 0056 7B68     		ldr	r3, [r7, #4]
+ 249 0058 1A64     		str	r2, [r3, #64]
+ 286:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->DmaBaseAddress = DMA1;
+ 250              		.loc 1 286 0
+ 251 005a 7B68     		ldr	r3, [r7, #4]
+ 252 005c 0F4A     		ldr	r2, .L9+8
+ 253 005e DA63     		str	r2, [r3, #60]
+ 287:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** #endif /* STM32F101xE || STM32F101xG || STM32F103xE || STM32F103xG || STM32F100xE || STM32F105xC ||
+ 288:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 289:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Clear all flags */
+ 290:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->DmaBaseAddress->IFCR = (DMA_ISR_GIF1 << (hdma->ChannelIndex));
+ 254              		.loc 1 290 0
+ 255 0060 7B68     		ldr	r3, [r7, #4]
+ 256 0062 DB6B     		ldr	r3, [r3, #60]
+ 257 0064 7A68     		ldr	r2, [r7, #4]
+ 258 0066 126C     		ldr	r2, [r2, #64]
+ 259 0068 0121     		movs	r1, #1
+ 260 006a 01FA02F2 		lsl	r2, r1, r2
+ 261 006e 5A60     		str	r2, [r3, #4]
+ 291:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 292:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Initialize the error code */
+ 293:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->ErrorCode = HAL_DMA_ERROR_NONE;
+ 262              		.loc 1 293 0
+ 263 0070 7B68     		ldr	r3, [r7, #4]
+ 264 0072 0022     		movs	r2, #0
+ 265 0074 9A63     		str	r2, [r3, #56]
+ 294:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 295:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Initialize the DMA state */
+ 296:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_RESET;
+ 266              		.loc 1 296 0
+ 267 0076 7B68     		ldr	r3, [r7, #4]
+ 268 0078 0022     		movs	r2, #0
+ 269 007a 83F82120 		strb	r2, [r3, #33]
+ 297:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 298:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Release Lock */
+ 299:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_UNLOCK(hdma);
+ 270              		.loc 1 299 0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 11
+
+
+ 271 007e 7B68     		ldr	r3, [r7, #4]
+ 272 0080 0022     		movs	r2, #0
+ 273 0082 83F82020 		strb	r2, [r3, #32]
+ 300:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 301:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return HAL_OK;
+ 274              		.loc 1 301 0
+ 275 0086 0023     		movs	r3, #0
+ 276              	.L8:
+ 302:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 277              		.loc 1 302 0
+ 278 0088 1846     		mov	r0, r3
+ 279 008a 0C37     		adds	r7, r7, #12
+ 280              	.LCFI9:
+ 281              		.cfi_def_cfa_offset 4
+ 282 008c BD46     		mov	sp, r7
+ 283              	.LCFI10:
+ 284              		.cfi_def_cfa_register 13
+ 285              		@ sp needed
+ 286 008e 80BC     		pop	{r7}
+ 287              	.LCFI11:
+ 288              		.cfi_restore 7
+ 289              		.cfi_def_cfa_offset 0
+ 290 0090 7047     		bx	lr
+ 291              	.L10:
+ 292 0092 00BF     		.align	2
+ 293              	.L9:
+ 294 0094 F8FFFDBF 		.word	-1073872904
+ 295 0098 CDCCCCCC 		.word	-858993459
+ 296 009c 00000240 		.word	1073872896
+ 297              		.cfi_endproc
+ 298              	.LFE65:
+ 300              		.section	.text.HAL_DMA_Start,"ax",%progbits
+ 301              		.align	2
+ 302              		.global	HAL_DMA_Start
+ 303              		.thumb
+ 304              		.thumb_func
+ 306              	HAL_DMA_Start:
+ 307              	.LFB66:
+ 303:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 304:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 305:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @}
+ 306:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 307:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 308:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions_Group2 Input and Output operation functions
+ 309:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *  @brief   Input and Output operation functions
+ 310:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+ 311:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @verbatim
+ 312:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================
+ 313:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                       #####  IO operation functions  #####
+ 314:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================
+ 315:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]  This section provides functions allowing to:
+ 316:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Configure the source, destination address and data length and Start DMA transfer
+ 317:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Configure the source, destination address and data length and
+ 318:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           Start DMA transfer with interrupt
+ 319:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Abort DMA transfer
+ 320:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Poll for transfer complete
+ 321:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Handle DMA interrupt request
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 12
+
+
+ 322:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 323:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @endverbatim
+ 324:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 325:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 326:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 327:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 328:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Start the DMA Transfer.
+ 329:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 330:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 331:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  SrcAddress: The source memory Buffer address
+ 332:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DstAddress: The destination memory Buffer address
+ 333:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DataLength: The length of data to be transferred from source to destination
+ 334:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 335:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 336:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Start(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, 
+ 337:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 308              		.loc 1 337 0
+ 309              		.cfi_startproc
+ 310              		@ args = 0, pretend = 0, frame = 24
+ 311              		@ frame_needed = 1, uses_anonymous_args = 0
+ 312 0000 80B5     		push	{r7, lr}
+ 313              	.LCFI12:
+ 314              		.cfi_def_cfa_offset 8
+ 315              		.cfi_offset 7, -8
+ 316              		.cfi_offset 14, -4
+ 317 0002 86B0     		sub	sp, sp, #24
+ 318              	.LCFI13:
+ 319              		.cfi_def_cfa_offset 32
+ 320 0004 00AF     		add	r7, sp, #0
+ 321              	.LCFI14:
+ 322              		.cfi_def_cfa_register 7
+ 323 0006 F860     		str	r0, [r7, #12]
+ 324 0008 B960     		str	r1, [r7, #8]
+ 325 000a 7A60     		str	r2, [r7, #4]
+ 326 000c 3B60     		str	r3, [r7]
+ 338:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 327              		.loc 1 338 0
+ 328 000e 0023     		movs	r3, #0
+ 329 0010 FB75     		strb	r3, [r7, #23]
+ 339:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 340:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the parameters */
+ 341:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_BUFFER_SIZE(DataLength));
+ 342:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 343:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process locked */
+ 344:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_LOCK(hdma);
+ 330              		.loc 1 344 0
+ 331 0012 FB68     		ldr	r3, [r7, #12]
+ 332 0014 93F82030 		ldrb	r3, [r3, #32]	@ zero_extendqisi2
+ 333 0018 012B     		cmp	r3, #1
+ 334 001a 01D1     		bne	.L12
+ 335              		.loc 1 344 0 is_stmt 0 discriminator 1
+ 336 001c 0223     		movs	r3, #2
+ 337 001e 2DE0     		b	.L13
+ 338              	.L12:
+ 339              		.loc 1 344 0 discriminator 2
+ 340 0020 FB68     		ldr	r3, [r7, #12]
+ 341 0022 0122     		movs	r2, #1
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 13
+
+
+ 342 0024 83F82020 		strb	r2, [r3, #32]
+ 345:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 346:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_READY == hdma->State)
+ 343              		.loc 1 346 0 is_stmt 1 discriminator 2
+ 344 0028 FB68     		ldr	r3, [r7, #12]
+ 345 002a 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 346 002e 012B     		cmp	r3, #1
+ 347 0030 1DD1     		bne	.L14
+ 347:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Change DMA peripheral state */
+ 349:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->State = HAL_DMA_STATE_BUSY;
+ 348              		.loc 1 349 0
+ 349 0032 FB68     		ldr	r3, [r7, #12]
+ 350 0034 0222     		movs	r2, #2
+ 351 0036 83F82120 		strb	r2, [r3, #33]
+ 350:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_NONE;
+ 352              		.loc 1 350 0
+ 353 003a FB68     		ldr	r3, [r7, #12]
+ 354 003c 0022     		movs	r2, #0
+ 355 003e 9A63     		str	r2, [r3, #56]
+ 351:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****             
+ 352:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable the peripheral */
+ 353:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_DISABLE(hdma);
+ 356              		.loc 1 353 0
+ 357 0040 FB68     		ldr	r3, [r7, #12]
+ 358 0042 1B68     		ldr	r3, [r3]
+ 359 0044 FA68     		ldr	r2, [r7, #12]
+ 360 0046 1268     		ldr	r2, [r2]
+ 361 0048 1268     		ldr	r2, [r2]
+ 362 004a 22F00102 		bic	r2, r2, #1
+ 363 004e 1A60     		str	r2, [r3]
+ 354:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 355:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure the source, destination address and the data length & clear flags*/
+ 356:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
+ 364              		.loc 1 356 0
+ 365 0050 3B68     		ldr	r3, [r7]
+ 366 0052 7A68     		ldr	r2, [r7, #4]
+ 367 0054 B968     		ldr	r1, [r7, #8]
+ 368 0056 F868     		ldr	r0, [r7, #12]
+ 369 0058 FFF7FEFF 		bl	DMA_SetConfig
+ 357:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 358:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Enable the Peripheral */
+ 359:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_ENABLE(hdma);
+ 370              		.loc 1 359 0
+ 371 005c FB68     		ldr	r3, [r7, #12]
+ 372 005e 1B68     		ldr	r3, [r3]
+ 373 0060 FA68     		ldr	r2, [r7, #12]
+ 374 0062 1268     		ldr	r2, [r2]
+ 375 0064 1268     		ldr	r2, [r2]
+ 376 0066 42F00102 		orr	r2, r2, #1
+ 377 006a 1A60     		str	r2, [r3]
+ 378 006c 05E0     		b	.L15
+ 379              	.L14:
+ 360:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 361:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 362:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 363:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    /* Process Unlocked */
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 14
+
+
+ 364:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    __HAL_UNLOCK(hdma);  
+ 380              		.loc 1 364 0
+ 381 006e FB68     		ldr	r3, [r7, #12]
+ 382 0070 0022     		movs	r2, #0
+ 383 0072 83F82020 		strb	r2, [r3, #32]
+ 365:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****    status = HAL_BUSY;
+ 384              		.loc 1 365 0
+ 385 0076 0223     		movs	r3, #2
+ 386 0078 FB75     		strb	r3, [r7, #23]
+ 387              	.L15:
+ 366:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }  
+ 367:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status;
+ 388              		.loc 1 367 0
+ 389 007a FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 390              	.L13:
+ 368:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 391              		.loc 1 368 0
+ 392 007c 1846     		mov	r0, r3
+ 393 007e 1837     		adds	r7, r7, #24
+ 394              	.LCFI15:
+ 395              		.cfi_def_cfa_offset 8
+ 396 0080 BD46     		mov	sp, r7
+ 397              	.LCFI16:
+ 398              		.cfi_def_cfa_register 13
+ 399              		@ sp needed
+ 400 0082 80BD     		pop	{r7, pc}
+ 401              		.cfi_endproc
+ 402              	.LFE66:
+ 404              		.section	.text.HAL_DMA_Start_IT,"ax",%progbits
+ 405              		.align	2
+ 406              		.global	HAL_DMA_Start_IT
+ 407              		.thumb
+ 408              		.thumb_func
+ 410              	HAL_DMA_Start_IT:
+ 411              	.LFB67:
+ 369:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 370:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 371:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Start the DMA Transfer with interrupt enabled.
+ 372:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 373:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 374:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  SrcAddress: The source memory Buffer address
+ 375:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DstAddress: The destination memory Buffer address
+ 376:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DataLength: The length of data to be transferred from source to destination
+ 377:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 378:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 379:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Start_IT(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddres
+ 380:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 412              		.loc 1 380 0
+ 413              		.cfi_startproc
+ 414              		@ args = 0, pretend = 0, frame = 24
+ 415              		@ frame_needed = 1, uses_anonymous_args = 0
+ 416 0000 80B5     		push	{r7, lr}
+ 417              	.LCFI17:
+ 418              		.cfi_def_cfa_offset 8
+ 419              		.cfi_offset 7, -8
+ 420              		.cfi_offset 14, -4
+ 421 0002 86B0     		sub	sp, sp, #24
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 15
+
+
+ 422              	.LCFI18:
+ 423              		.cfi_def_cfa_offset 32
+ 424 0004 00AF     		add	r7, sp, #0
+ 425              	.LCFI19:
+ 426              		.cfi_def_cfa_register 7
+ 427 0006 F860     		str	r0, [r7, #12]
+ 428 0008 B960     		str	r1, [r7, #8]
+ 429 000a 7A60     		str	r2, [r7, #4]
+ 430 000c 3B60     		str	r3, [r7]
+ 381:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 431              		.loc 1 381 0
+ 432 000e 0023     		movs	r3, #0
+ 433 0010 FB75     		strb	r3, [r7, #23]
+ 382:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 383:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the parameters */
+ 384:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_BUFFER_SIZE(DataLength));
+ 385:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 386:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process locked */
+ 387:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_LOCK(hdma);
+ 434              		.loc 1 387 0
+ 435 0012 FB68     		ldr	r3, [r7, #12]
+ 436 0014 93F82030 		ldrb	r3, [r3, #32]	@ zero_extendqisi2
+ 437 0018 012B     		cmp	r3, #1
+ 438 001a 01D1     		bne	.L17
+ 439              		.loc 1 387 0 is_stmt 0 discriminator 1
+ 440 001c 0223     		movs	r3, #2
+ 441 001e 4AE0     		b	.L18
+ 442              	.L17:
+ 443              		.loc 1 387 0 discriminator 2
+ 444 0020 FB68     		ldr	r3, [r7, #12]
+ 445 0022 0122     		movs	r2, #1
+ 446 0024 83F82020 		strb	r2, [r3, #32]
+ 388:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 389:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_READY == hdma->State)
+ 447              		.loc 1 389 0 is_stmt 1 discriminator 2
+ 448 0028 FB68     		ldr	r3, [r7, #12]
+ 449 002a 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 450 002e 012B     		cmp	r3, #1
+ 451 0030 3AD1     		bne	.L19
+ 390:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 391:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Change DMA peripheral state */
+ 392:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->State = HAL_DMA_STATE_BUSY;
+ 452              		.loc 1 392 0
+ 453 0032 FB68     		ldr	r3, [r7, #12]
+ 454 0034 0222     		movs	r2, #2
+ 455 0036 83F82120 		strb	r2, [r3, #33]
+ 393:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_NONE;
+ 456              		.loc 1 393 0
+ 457 003a FB68     		ldr	r3, [r7, #12]
+ 458 003c 0022     		movs	r2, #0
+ 459 003e 9A63     		str	r2, [r3, #56]
+ 394:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 395:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable the peripheral */
+ 396:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_DISABLE(hdma);
+ 460              		.loc 1 396 0
+ 461 0040 FB68     		ldr	r3, [r7, #12]
+ 462 0042 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 16
+
+
+ 463 0044 FA68     		ldr	r2, [r7, #12]
+ 464 0046 1268     		ldr	r2, [r2]
+ 465 0048 1268     		ldr	r2, [r2]
+ 466 004a 22F00102 		bic	r2, r2, #1
+ 467 004e 1A60     		str	r2, [r3]
+ 397:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 398:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure the source, destination address and the data length & clear flags*/
+ 399:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
+ 468              		.loc 1 399 0
+ 469 0050 3B68     		ldr	r3, [r7]
+ 470 0052 7A68     		ldr	r2, [r7, #4]
+ 471 0054 B968     		ldr	r1, [r7, #8]
+ 472 0056 F868     		ldr	r0, [r7, #12]
+ 473 0058 FFF7FEFF 		bl	DMA_SetConfig
+ 400:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 401:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Enable the transfer complete interrupt */
+ 402:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Enable the transfer Error interrupt */
+ 403:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(NULL != hdma->XferHalfCpltCallback)
+ 474              		.loc 1 403 0
+ 475 005c FB68     		ldr	r3, [r7, #12]
+ 476 005e DB6A     		ldr	r3, [r3, #44]
+ 477 0060 002B     		cmp	r3, #0
+ 478 0062 08D0     		beq	.L20
+ 404:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 405:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Enable the Half transfer complete interrupt as well */
+ 406:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_ENABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+ 479              		.loc 1 406 0
+ 480 0064 FB68     		ldr	r3, [r7, #12]
+ 481 0066 1B68     		ldr	r3, [r3]
+ 482 0068 FA68     		ldr	r2, [r7, #12]
+ 483 006a 1268     		ldr	r2, [r2]
+ 484 006c 1268     		ldr	r2, [r2]
+ 485 006e 42F00E02 		orr	r2, r2, #14
+ 486 0072 1A60     		str	r2, [r3]
+ 487 0074 0FE0     		b	.L21
+ 488              	.L20:
+ 407:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 408:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     else
+ 409:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 410:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT);
+ 489              		.loc 1 410 0
+ 490 0076 FB68     		ldr	r3, [r7, #12]
+ 491 0078 1B68     		ldr	r3, [r3]
+ 492 007a FA68     		ldr	r2, [r7, #12]
+ 493 007c 1268     		ldr	r2, [r2]
+ 494 007e 1268     		ldr	r2, [r2]
+ 495 0080 22F00402 		bic	r2, r2, #4
+ 496 0084 1A60     		str	r2, [r3]
+ 411:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_ENABLE_IT(hdma, (DMA_IT_TC | DMA_IT_TE));
+ 497              		.loc 1 411 0
+ 498 0086 FB68     		ldr	r3, [r7, #12]
+ 499 0088 1B68     		ldr	r3, [r3]
+ 500 008a FA68     		ldr	r2, [r7, #12]
+ 501 008c 1268     		ldr	r2, [r2]
+ 502 008e 1268     		ldr	r2, [r2]
+ 503 0090 42F00A02 		orr	r2, r2, #10
+ 504 0094 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 17
+
+
+ 505              	.L21:
+ 412:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 413:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Enable the Peripheral */
+ 414:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_ENABLE(hdma);
+ 506              		.loc 1 414 0
+ 507 0096 FB68     		ldr	r3, [r7, #12]
+ 508 0098 1B68     		ldr	r3, [r3]
+ 509 009a FA68     		ldr	r2, [r7, #12]
+ 510 009c 1268     		ldr	r2, [r2]
+ 511 009e 1268     		ldr	r2, [r2]
+ 512 00a0 42F00102 		orr	r2, r2, #1
+ 513 00a4 1A60     		str	r2, [r3]
+ 514 00a6 05E0     		b	.L22
+ 515              	.L19:
+ 415:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 416:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 417:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {      
+ 418:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Process Unlocked */
+ 419:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma); 
+ 516              		.loc 1 419 0
+ 517 00a8 FB68     		ldr	r3, [r7, #12]
+ 518 00aa 0022     		movs	r2, #0
+ 519 00ac 83F82020 		strb	r2, [r3, #32]
+ 420:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 421:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Remain BUSY */
+ 422:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     status = HAL_BUSY;
+ 520              		.loc 1 422 0
+ 521 00b0 0223     		movs	r3, #2
+ 522 00b2 FB75     		strb	r3, [r7, #23]
+ 523              	.L22:
+ 423:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }    
+ 424:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status;
+ 524              		.loc 1 424 0
+ 525 00b4 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 526              	.L18:
+ 425:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 527              		.loc 1 425 0
+ 528 00b6 1846     		mov	r0, r3
+ 529 00b8 1837     		adds	r7, r7, #24
+ 530              	.LCFI20:
+ 531              		.cfi_def_cfa_offset 8
+ 532 00ba BD46     		mov	sp, r7
+ 533              	.LCFI21:
+ 534              		.cfi_def_cfa_register 13
+ 535              		@ sp needed
+ 536 00bc 80BD     		pop	{r7, pc}
+ 537              		.cfi_endproc
+ 538              	.LFE67:
+ 540 00be 00BF     		.section	.text.HAL_DMA_Abort,"ax",%progbits
+ 541              		.align	2
+ 542              		.global	HAL_DMA_Abort
+ 543              		.thumb
+ 544              		.thumb_func
+ 546              	HAL_DMA_Abort:
+ 547              	.LFB68:
+ 426:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 427:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 18
+
+
+ 428:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Abort the DMA Transfer.
+ 429:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 430:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 431:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 432:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 433:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Abort(DMA_HandleTypeDef *hdma)
+ 434:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 548              		.loc 1 434 0
+ 549              		.cfi_startproc
+ 550              		@ args = 0, pretend = 0, frame = 16
+ 551              		@ frame_needed = 1, uses_anonymous_args = 0
+ 552              		@ link register save eliminated.
+ 553 0000 80B4     		push	{r7}
+ 554              	.LCFI22:
+ 555              		.cfi_def_cfa_offset 4
+ 556              		.cfi_offset 7, -4
+ 557 0002 85B0     		sub	sp, sp, #20
+ 558              	.LCFI23:
+ 559              		.cfi_def_cfa_offset 24
+ 560 0004 00AF     		add	r7, sp, #0
+ 561              	.LCFI24:
+ 562              		.cfi_def_cfa_register 7
+ 563 0006 7860     		str	r0, [r7, #4]
+ 435:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 564              		.loc 1 435 0
+ 565 0008 0023     		movs	r3, #0
+ 566 000a FB73     		strb	r3, [r7, #15]
+ 436:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 437:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Disable DMA IT */
+ 438:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_DMA_DISABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+ 567              		.loc 1 438 0
+ 568 000c 7B68     		ldr	r3, [r7, #4]
+ 569 000e 1B68     		ldr	r3, [r3]
+ 570 0010 7A68     		ldr	r2, [r7, #4]
+ 571 0012 1268     		ldr	r2, [r2]
+ 572 0014 1268     		ldr	r2, [r2]
+ 573 0016 22F00E02 		bic	r2, r2, #14
+ 574 001a 1A60     		str	r2, [r3]
+ 439:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 440:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Disable the channel */
+ 441:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_DMA_DISABLE(hdma);
+ 575              		.loc 1 441 0
+ 576 001c 7B68     		ldr	r3, [r7, #4]
+ 577 001e 1B68     		ldr	r3, [r3]
+ 578 0020 7A68     		ldr	r2, [r7, #4]
+ 579 0022 1268     		ldr	r2, [r2]
+ 580 0024 1268     		ldr	r2, [r2]
+ 581 0026 22F00102 		bic	r2, r2, #1
+ 582 002a 1A60     		str	r2, [r3]
+ 442:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
+ 443:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Clear all flags */
+ 444:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->DmaBaseAddress->IFCR = (DMA_ISR_GIF1 << hdma->ChannelIndex);
+ 583              		.loc 1 444 0
+ 584 002c 7B68     		ldr	r3, [r7, #4]
+ 585 002e DB6B     		ldr	r3, [r3, #60]
+ 586 0030 7A68     		ldr	r2, [r7, #4]
+ 587 0032 126C     		ldr	r2, [r2, #64]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 19
+
+
+ 588 0034 0121     		movs	r1, #1
+ 589 0036 01FA02F2 		lsl	r2, r1, r2
+ 590 003a 5A60     		str	r2, [r3, #4]
+ 445:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 446:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Change the DMA state */
+ 447:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_READY;
+ 591              		.loc 1 447 0
+ 592 003c 7B68     		ldr	r3, [r7, #4]
+ 593 003e 0122     		movs	r2, #1
+ 594 0040 83F82120 		strb	r2, [r3, #33]
+ 448:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 449:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process Unlocked */
+ 450:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_UNLOCK(hdma);      
+ 595              		.loc 1 450 0
+ 596 0044 7B68     		ldr	r3, [r7, #4]
+ 597 0046 0022     		movs	r2, #0
+ 598 0048 83F82020 		strb	r2, [r3, #32]
+ 451:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 452:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status; 
+ 599              		.loc 1 452 0
+ 600 004c FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 453:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 601              		.loc 1 453 0
+ 602 004e 1846     		mov	r0, r3
+ 603 0050 1437     		adds	r7, r7, #20
+ 604              	.LCFI25:
+ 605              		.cfi_def_cfa_offset 4
+ 606 0052 BD46     		mov	sp, r7
+ 607              	.LCFI26:
+ 608              		.cfi_def_cfa_register 13
+ 609              		@ sp needed
+ 610 0054 80BC     		pop	{r7}
+ 611              	.LCFI27:
+ 612              		.cfi_restore 7
+ 613              		.cfi_def_cfa_offset 0
+ 614 0056 7047     		bx	lr
+ 615              		.cfi_endproc
+ 616              	.LFE68:
+ 618              		.section	.text.HAL_DMA_Abort_IT,"ax",%progbits
+ 619              		.align	2
+ 620              		.global	HAL_DMA_Abort_IT
+ 621              		.thumb
+ 622              		.thumb_func
+ 624              	HAL_DMA_Abort_IT:
+ 625              	.LFB69:
+ 454:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 455:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 456:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Aborts the DMA Transfer in Interrupt mode.
+ 457:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma  : pointer to a DMA_HandleTypeDef structure that contains
+ 458:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                 the configuration information for the specified DMA Channel.
+ 459:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 460:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 461:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Abort_IT(DMA_HandleTypeDef *hdma)
+ 462:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {  
+ 626              		.loc 1 462 0
+ 627              		.cfi_startproc
+ 628              		@ args = 0, pretend = 0, frame = 16
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 20
+
+
+ 629              		@ frame_needed = 1, uses_anonymous_args = 0
+ 630 0000 80B5     		push	{r7, lr}
+ 631              	.LCFI28:
+ 632              		.cfi_def_cfa_offset 8
+ 633              		.cfi_offset 7, -8
+ 634              		.cfi_offset 14, -4
+ 635 0002 84B0     		sub	sp, sp, #16
+ 636              	.LCFI29:
+ 637              		.cfi_def_cfa_offset 24
+ 638 0004 00AF     		add	r7, sp, #0
+ 639              	.LCFI30:
+ 640              		.cfi_def_cfa_register 7
+ 641 0006 7860     		str	r0, [r7, #4]
+ 463:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 642              		.loc 1 463 0
+ 643 0008 0023     		movs	r3, #0
+ 644 000a FB73     		strb	r3, [r7, #15]
+ 464:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 465:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_BUSY != hdma->State)
+ 645              		.loc 1 465 0
+ 646 000c 7B68     		ldr	r3, [r7, #4]
+ 647 000e 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 648 0012 022B     		cmp	r3, #2
+ 649 0014 05D0     		beq	.L26
+ 466:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 467:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* no transfer ongoing */
+ 468:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_NO_XFER;
+ 650              		.loc 1 468 0
+ 651 0016 7B68     		ldr	r3, [r7, #4]
+ 652 0018 0422     		movs	r2, #4
+ 653 001a 9A63     		str	r2, [r3, #56]
+ 469:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         
+ 470:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     status = HAL_ERROR;
+ 654              		.loc 1 470 0
+ 655 001c 0123     		movs	r3, #1
+ 656 001e FB73     		strb	r3, [r7, #15]
+ 657 0020 57E0     		b	.L27
+ 658              	.L26:
+ 471:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 472:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 473:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   { 
+ 474:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable DMA IT */
+ 475:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_DISABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+ 659              		.loc 1 475 0
+ 660 0022 7B68     		ldr	r3, [r7, #4]
+ 661 0024 1B68     		ldr	r3, [r3]
+ 662 0026 7A68     		ldr	r2, [r7, #4]
+ 663 0028 1268     		ldr	r2, [r2]
+ 664 002a 1268     		ldr	r2, [r2]
+ 665 002c 22F00E02 		bic	r2, r2, #14
+ 666 0030 1A60     		str	r2, [r3]
+ 476:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 477:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable the channel */
+ 478:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_DISABLE(hdma);
+ 667              		.loc 1 478 0
+ 668 0032 7B68     		ldr	r3, [r7, #4]
+ 669 0034 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 21
+
+
+ 670 0036 7A68     		ldr	r2, [r7, #4]
+ 671 0038 1268     		ldr	r2, [r2]
+ 672 003a 1268     		ldr	r2, [r2]
+ 673 003c 22F00102 		bic	r2, r2, #1
+ 674 0040 1A60     		str	r2, [r3]
+ 479:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 480:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear all flags */
+ 481:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_GI_FLAG_INDEX(hdma));
+ 675              		.loc 1 481 0
+ 676 0042 264A     		ldr	r2, .L41
+ 677 0044 7B68     		ldr	r3, [r7, #4]
+ 678 0046 1B68     		ldr	r3, [r3]
+ 679 0048 1946     		mov	r1, r3
+ 680 004a 254B     		ldr	r3, .L41+4
+ 681 004c 9942     		cmp	r1, r3
+ 682 004e 2ED0     		beq	.L28
+ 683              		.loc 1 481 0 is_stmt 0 discriminator 1
+ 684 0050 7B68     		ldr	r3, [r7, #4]
+ 685 0052 1B68     		ldr	r3, [r3]
+ 686 0054 1946     		mov	r1, r3
+ 687 0056 234B     		ldr	r3, .L41+8
+ 688 0058 9942     		cmp	r1, r3
+ 689 005a 26D0     		beq	.L29
+ 690              		.loc 1 481 0 discriminator 3
+ 691 005c 7B68     		ldr	r3, [r7, #4]
+ 692 005e 1B68     		ldr	r3, [r3]
+ 693 0060 1946     		mov	r1, r3
+ 694 0062 214B     		ldr	r3, .L41+12
+ 695 0064 9942     		cmp	r1, r3
+ 696 0066 1DD0     		beq	.L30
+ 697              		.loc 1 481 0 discriminator 5
+ 698 0068 7B68     		ldr	r3, [r7, #4]
+ 699 006a 1B68     		ldr	r3, [r3]
+ 700 006c 1946     		mov	r1, r3
+ 701 006e 1F4B     		ldr	r3, .L41+16
+ 702 0070 9942     		cmp	r1, r3
+ 703 0072 14D0     		beq	.L31
+ 704              		.loc 1 481 0 discriminator 7
+ 705 0074 7B68     		ldr	r3, [r7, #4]
+ 706 0076 1B68     		ldr	r3, [r3]
+ 707 0078 1946     		mov	r1, r3
+ 708 007a 1D4B     		ldr	r3, .L41+20
+ 709 007c 9942     		cmp	r1, r3
+ 710 007e 0BD0     		beq	.L32
+ 711              		.loc 1 481 0 discriminator 9
+ 712 0080 7B68     		ldr	r3, [r7, #4]
+ 713 0082 1B68     		ldr	r3, [r3]
+ 714 0084 1946     		mov	r1, r3
+ 715 0086 1B4B     		ldr	r3, .L41+24
+ 716 0088 9942     		cmp	r1, r3
+ 717 008a 02D1     		bne	.L33
+ 718              		.loc 1 481 0 discriminator 11
+ 719 008c 4FF48013 		mov	r3, #1048576
+ 720 0090 0EE0     		b	.L39
+ 721              	.L33:
+ 722              		.loc 1 481 0 discriminator 12
+ 723 0092 4FF08073 		mov	r3, #16777216
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 22
+
+
+ 724 0096 0BE0     		b	.L39
+ 725              	.L32:
+ 726              		.loc 1 481 0 discriminator 10
+ 727 0098 4FF48033 		mov	r3, #65536
+ 728 009c 08E0     		b	.L39
+ 729              	.L31:
+ 730              		.loc 1 481 0 discriminator 8
+ 731 009e 4FF48053 		mov	r3, #4096
+ 732 00a2 05E0     		b	.L39
+ 733              	.L30:
+ 734              		.loc 1 481 0 discriminator 6
+ 735 00a4 4FF48073 		mov	r3, #256
+ 736 00a8 02E0     		b	.L39
+ 737              	.L29:
+ 738              		.loc 1 481 0 discriminator 4
+ 739 00aa 1023     		movs	r3, #16
+ 740 00ac 00E0     		b	.L39
+ 741              	.L28:
+ 742              		.loc 1 481 0 discriminator 2
+ 743 00ae 0123     		movs	r3, #1
+ 744              	.L39:
+ 745              		.loc 1 481 0 discriminator 24
+ 746 00b0 5360     		str	r3, [r2, #4]
+ 482:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 483:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Change the DMA state */
+ 484:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->State = HAL_DMA_STATE_READY;
+ 747              		.loc 1 484 0 is_stmt 1 discriminator 24
+ 748 00b2 7B68     		ldr	r3, [r7, #4]
+ 749 00b4 0122     		movs	r2, #1
+ 750 00b6 83F82120 		strb	r2, [r3, #33]
+ 485:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 486:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Process Unlocked */
+ 487:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
+ 751              		.loc 1 487 0 discriminator 24
+ 752 00ba 7B68     		ldr	r3, [r7, #4]
+ 753 00bc 0022     		movs	r2, #0
+ 754 00be 83F82020 		strb	r2, [r3, #32]
+ 488:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 489:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Call User Abort callback */
+ 490:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(hdma->XferAbortCallback != NULL)
+ 755              		.loc 1 490 0 discriminator 24
+ 756 00c2 7B68     		ldr	r3, [r7, #4]
+ 757 00c4 5B6B     		ldr	r3, [r3, #52]
+ 758 00c6 002B     		cmp	r3, #0
+ 759 00c8 03D0     		beq	.L27
+ 491:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 492:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferAbortCallback(hdma);
+ 760              		.loc 1 492 0
+ 761 00ca 7B68     		ldr	r3, [r7, #4]
+ 762 00cc 5B6B     		ldr	r3, [r3, #52]
+ 763 00ce 7868     		ldr	r0, [r7, #4]
+ 764 00d0 9847     		blx	r3
+ 765              	.L27:
+ 493:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     } 
+ 494:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 495:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status;
+ 766              		.loc 1 495 0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 23
+
+
+ 767 00d2 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 496:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 768              		.loc 1 496 0
+ 769 00d4 1846     		mov	r0, r3
+ 770 00d6 1037     		adds	r7, r7, #16
+ 771              	.LCFI31:
+ 772              		.cfi_def_cfa_offset 8
+ 773 00d8 BD46     		mov	sp, r7
+ 774              	.LCFI32:
+ 775              		.cfi_def_cfa_register 13
+ 776              		@ sp needed
+ 777 00da 80BD     		pop	{r7, pc}
+ 778              	.L42:
+ 779              		.align	2
+ 780              	.L41:
+ 781 00dc 00000240 		.word	1073872896
+ 782 00e0 08000240 		.word	1073872904
+ 783 00e4 1C000240 		.word	1073872924
+ 784 00e8 30000240 		.word	1073872944
+ 785 00ec 44000240 		.word	1073872964
+ 786 00f0 58000240 		.word	1073872984
+ 787 00f4 6C000240 		.word	1073873004
+ 788              		.cfi_endproc
+ 789              	.LFE69:
+ 791              		.section	.text.HAL_DMA_PollForTransfer,"ax",%progbits
+ 792              		.align	2
+ 793              		.global	HAL_DMA_PollForTransfer
+ 794              		.thumb
+ 795              		.thumb_func
+ 797              	HAL_DMA_PollForTransfer:
+ 798              	.LFB70:
+ 497:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 498:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 499:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Polling for transfer complete.
+ 500:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma:    pointer to a DMA_HandleTypeDef structure that contains
+ 501:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                  the configuration information for the specified DMA Channel.
+ 502:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  CompleteLevel: Specifies the DMA level complete.
+ 503:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  Timeout:       Timeout duration.
+ 504:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 505:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 506:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_PollForTransfer(DMA_HandleTypeDef *hdma, uint32_t CompleteLevel, uint32_t
+ 507:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 799              		.loc 1 507 0
+ 800              		.cfi_startproc
+ 801              		@ args = 0, pretend = 0, frame = 24
+ 802              		@ frame_needed = 1, uses_anonymous_args = 0
+ 803 0000 80B5     		push	{r7, lr}
+ 804              	.LCFI33:
+ 805              		.cfi_def_cfa_offset 8
+ 806              		.cfi_offset 7, -8
+ 807              		.cfi_offset 14, -4
+ 808 0002 86B0     		sub	sp, sp, #24
+ 809              	.LCFI34:
+ 810              		.cfi_def_cfa_offset 32
+ 811 0004 00AF     		add	r7, sp, #0
+ 812              	.LCFI35:
+ 813              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 24
+
+
+ 814 0006 F860     		str	r0, [r7, #12]
+ 815 0008 B960     		str	r1, [r7, #8]
+ 816 000a 7A60     		str	r2, [r7, #4]
+ 508:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   uint32_t temp;
+ 509:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   uint32_t tickstart = 0U;
+ 817              		.loc 1 509 0
+ 818 000c 0023     		movs	r3, #0
+ 819 000e 3B61     		str	r3, [r7, #16]
+ 510:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 511:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_BUSY != hdma->State)
+ 820              		.loc 1 511 0
+ 821 0010 FB68     		ldr	r3, [r7, #12]
+ 822 0012 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 823 0016 022B     		cmp	r3, #2
+ 824 0018 08D0     		beq	.L44
+ 512:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 513:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* no transfer ongoing */
+ 514:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_NO_XFER;
+ 825              		.loc 1 514 0
+ 826 001a FB68     		ldr	r3, [r7, #12]
+ 827 001c 0422     		movs	r2, #4
+ 828 001e 9A63     		str	r2, [r3, #56]
+ 515:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
+ 829              		.loc 1 515 0
+ 830 0020 FB68     		ldr	r3, [r7, #12]
+ 831 0022 0022     		movs	r2, #0
+ 832 0024 83F82020 		strb	r2, [r3, #32]
+ 516:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     return HAL_ERROR;
+ 833              		.loc 1 516 0
+ 834 0028 0123     		movs	r3, #1
+ 835 002a 86E1     		b	.L45
+ 836              	.L44:
+ 517:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 518:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 519:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Polling mode not supported in circular mode */
+ 520:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if (RESET != (hdma->Instance->CCR & DMA_CCR_CIRC))
+ 837              		.loc 1 520 0
+ 838 002c FB68     		ldr	r3, [r7, #12]
+ 839 002e 1B68     		ldr	r3, [r3]
+ 840 0030 1B68     		ldr	r3, [r3]
+ 841 0032 03F02003 		and	r3, r3, #32
+ 842 0036 002B     		cmp	r3, #0
+ 843 0038 05D0     		beq	.L46
+ 521:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 522:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_NOT_SUPPORTED;
+ 844              		.loc 1 522 0
+ 845 003a FB68     		ldr	r3, [r7, #12]
+ 846 003c 4FF48072 		mov	r2, #256
+ 847 0040 9A63     		str	r2, [r3, #56]
+ 523:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     return HAL_ERROR;
+ 848              		.loc 1 523 0
+ 849 0042 0123     		movs	r3, #1
+ 850 0044 79E1     		b	.L45
+ 851              	.L46:
+ 524:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 525:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 526:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Get the level transfer complete flag */
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 25
+
+
+ 527:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
+ 852              		.loc 1 527 0
+ 853 0046 BB68     		ldr	r3, [r7, #8]
+ 854 0048 002B     		cmp	r3, #0
+ 855 004a 37D1     		bne	.L47
+ 528:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 529:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Transfer Complete flag */
+ 530:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     temp = __HAL_DMA_GET_TC_FLAG_INDEX(hdma);
+ 856              		.loc 1 530 0
+ 857 004c FB68     		ldr	r3, [r7, #12]
+ 858 004e 1B68     		ldr	r3, [r3]
+ 859 0050 1A46     		mov	r2, r3
+ 860 0052 944B     		ldr	r3, .L115
+ 861 0054 9A42     		cmp	r2, r3
+ 862 0056 2ED0     		beq	.L48
+ 863              		.loc 1 530 0 is_stmt 0 discriminator 1
+ 864 0058 FB68     		ldr	r3, [r7, #12]
+ 865 005a 1B68     		ldr	r3, [r3]
+ 866 005c 1A46     		mov	r2, r3
+ 867 005e 924B     		ldr	r3, .L115+4
+ 868 0060 9A42     		cmp	r2, r3
+ 869 0062 26D0     		beq	.L49
+ 870              		.loc 1 530 0 discriminator 3
+ 871 0064 FB68     		ldr	r3, [r7, #12]
+ 872 0066 1B68     		ldr	r3, [r3]
+ 873 0068 1A46     		mov	r2, r3
+ 874 006a 904B     		ldr	r3, .L115+8
+ 875 006c 9A42     		cmp	r2, r3
+ 876 006e 1DD0     		beq	.L50
+ 877              		.loc 1 530 0 discriminator 5
+ 878 0070 FB68     		ldr	r3, [r7, #12]
+ 879 0072 1B68     		ldr	r3, [r3]
+ 880 0074 1A46     		mov	r2, r3
+ 881 0076 8E4B     		ldr	r3, .L115+12
+ 882 0078 9A42     		cmp	r2, r3
+ 883 007a 14D0     		beq	.L51
+ 884              		.loc 1 530 0 discriminator 7
+ 885 007c FB68     		ldr	r3, [r7, #12]
+ 886 007e 1B68     		ldr	r3, [r3]
+ 887 0080 1A46     		mov	r2, r3
+ 888 0082 8C4B     		ldr	r3, .L115+16
+ 889 0084 9A42     		cmp	r2, r3
+ 890 0086 0BD0     		beq	.L52
+ 891              		.loc 1 530 0 discriminator 9
+ 892 0088 FB68     		ldr	r3, [r7, #12]
+ 893 008a 1B68     		ldr	r3, [r3]
+ 894 008c 1A46     		mov	r2, r3
+ 895 008e 8A4B     		ldr	r3, .L115+20
+ 896 0090 9A42     		cmp	r2, r3
+ 897 0092 02D1     		bne	.L53
+ 898              		.loc 1 530 0 discriminator 11
+ 899 0094 4FF40013 		mov	r3, #2097152
+ 900 0098 0EE0     		b	.L59
+ 901              	.L53:
+ 902              		.loc 1 530 0 discriminator 12
+ 903 009a 4FF00073 		mov	r3, #33554432
+ 904 009e 0BE0     		b	.L59
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 26
+
+
+ 905              	.L52:
+ 906              		.loc 1 530 0 discriminator 10
+ 907 00a0 4FF40033 		mov	r3, #131072
+ 908 00a4 08E0     		b	.L59
+ 909              	.L51:
+ 910              		.loc 1 530 0 discriminator 8
+ 911 00a6 4FF40053 		mov	r3, #8192
+ 912 00aa 05E0     		b	.L59
+ 913              	.L50:
+ 914              		.loc 1 530 0 discriminator 6
+ 915 00ac 4FF40073 		mov	r3, #512
+ 916 00b0 02E0     		b	.L59
+ 917              	.L49:
+ 918              		.loc 1 530 0 discriminator 4
+ 919 00b2 2023     		movs	r3, #32
+ 920 00b4 00E0     		b	.L59
+ 921              	.L48:
+ 922              		.loc 1 530 0 discriminator 2
+ 923 00b6 0223     		movs	r3, #2
+ 924              	.L59:
+ 925              		.loc 1 530 0 discriminator 24
+ 926 00b8 7B61     		str	r3, [r7, #20]
+ 927 00ba 36E0     		b	.L60
+ 928              	.L47:
+ 531:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 532:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 533:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 534:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Half Transfer Complete flag */
+ 535:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     temp = __HAL_DMA_GET_HT_FLAG_INDEX(hdma);
+ 929              		.loc 1 535 0 is_stmt 1
+ 930 00bc FB68     		ldr	r3, [r7, #12]
+ 931 00be 1B68     		ldr	r3, [r3]
+ 932 00c0 1A46     		mov	r2, r3
+ 933 00c2 784B     		ldr	r3, .L115
+ 934 00c4 9A42     		cmp	r2, r3
+ 935 00c6 2ED0     		beq	.L61
+ 936              		.loc 1 535 0 is_stmt 0 discriminator 1
+ 937 00c8 FB68     		ldr	r3, [r7, #12]
+ 938 00ca 1B68     		ldr	r3, [r3]
+ 939 00cc 1A46     		mov	r2, r3
+ 940 00ce 764B     		ldr	r3, .L115+4
+ 941 00d0 9A42     		cmp	r2, r3
+ 942 00d2 26D0     		beq	.L62
+ 943              		.loc 1 535 0 discriminator 3
+ 944 00d4 FB68     		ldr	r3, [r7, #12]
+ 945 00d6 1B68     		ldr	r3, [r3]
+ 946 00d8 1A46     		mov	r2, r3
+ 947 00da 744B     		ldr	r3, .L115+8
+ 948 00dc 9A42     		cmp	r2, r3
+ 949 00de 1DD0     		beq	.L63
+ 950              		.loc 1 535 0 discriminator 5
+ 951 00e0 FB68     		ldr	r3, [r7, #12]
+ 952 00e2 1B68     		ldr	r3, [r3]
+ 953 00e4 1A46     		mov	r2, r3
+ 954 00e6 724B     		ldr	r3, .L115+12
+ 955 00e8 9A42     		cmp	r2, r3
+ 956 00ea 14D0     		beq	.L64
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 27
+
+
+ 957              		.loc 1 535 0 discriminator 7
+ 958 00ec FB68     		ldr	r3, [r7, #12]
+ 959 00ee 1B68     		ldr	r3, [r3]
+ 960 00f0 1A46     		mov	r2, r3
+ 961 00f2 704B     		ldr	r3, .L115+16
+ 962 00f4 9A42     		cmp	r2, r3
+ 963 00f6 0BD0     		beq	.L65
+ 964              		.loc 1 535 0 discriminator 9
+ 965 00f8 FB68     		ldr	r3, [r7, #12]
+ 966 00fa 1B68     		ldr	r3, [r3]
+ 967 00fc 1A46     		mov	r2, r3
+ 968 00fe 6E4B     		ldr	r3, .L115+20
+ 969 0100 9A42     		cmp	r2, r3
+ 970 0102 02D1     		bne	.L66
+ 971              		.loc 1 535 0 discriminator 11
+ 972 0104 4FF48003 		mov	r3, #4194304
+ 973 0108 0EE0     		b	.L72
+ 974              	.L66:
+ 975              		.loc 1 535 0 discriminator 12
+ 976 010a 4FF08063 		mov	r3, #67108864
+ 977 010e 0BE0     		b	.L72
+ 978              	.L65:
+ 979              		.loc 1 535 0 discriminator 10
+ 980 0110 4FF48023 		mov	r3, #262144
+ 981 0114 08E0     		b	.L72
+ 982              	.L64:
+ 983              		.loc 1 535 0 discriminator 8
+ 984 0116 4FF48043 		mov	r3, #16384
+ 985 011a 05E0     		b	.L72
+ 986              	.L63:
+ 987              		.loc 1 535 0 discriminator 6
+ 988 011c 4FF48063 		mov	r3, #1024
+ 989 0120 02E0     		b	.L72
+ 990              	.L62:
+ 991              		.loc 1 535 0 discriminator 4
+ 992 0122 4023     		movs	r3, #64
+ 993 0124 00E0     		b	.L72
+ 994              	.L61:
+ 995              		.loc 1 535 0 discriminator 2
+ 996 0126 0423     		movs	r3, #4
+ 997              	.L72:
+ 998              		.loc 1 535 0 discriminator 24
+ 999 0128 7B61     		str	r3, [r7, #20]
+ 1000              	.L60:
+ 536:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 537:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 538:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Get tick */
+ 539:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   tickstart = HAL_GetTick();
+ 1001              		.loc 1 539 0 is_stmt 1
+ 1002 012a FFF7FEFF 		bl	HAL_GetTick
+ 1003 012e 3861     		str	r0, [r7, #16]
+ 540:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 541:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   while(__HAL_DMA_GET_FLAG(hdma, temp) == RESET)
+ 1004              		.loc 1 541 0
+ 1005 0130 71E0     		b	.L73
+ 1006              	.L88:
+ 542:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 28
+
+
+ 543:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if((__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma)) != RESET))
+ 1007              		.loc 1 543 0
+ 1008 0132 624B     		ldr	r3, .L115+24
+ 1009 0134 1A68     		ldr	r2, [r3]
+ 1010 0136 FB68     		ldr	r3, [r7, #12]
+ 1011 0138 1B68     		ldr	r3, [r3]
+ 1012 013a 1946     		mov	r1, r3
+ 1013 013c 594B     		ldr	r3, .L115
+ 1014 013e 9942     		cmp	r1, r3
+ 1015 0140 2ED0     		beq	.L74
+ 1016              		.loc 1 543 0 is_stmt 0 discriminator 1
+ 1017 0142 FB68     		ldr	r3, [r7, #12]
+ 1018 0144 1B68     		ldr	r3, [r3]
+ 1019 0146 1946     		mov	r1, r3
+ 1020 0148 574B     		ldr	r3, .L115+4
+ 1021 014a 9942     		cmp	r1, r3
+ 1022 014c 26D0     		beq	.L75
+ 1023              		.loc 1 543 0 discriminator 3
+ 1024 014e FB68     		ldr	r3, [r7, #12]
+ 1025 0150 1B68     		ldr	r3, [r3]
+ 1026 0152 1946     		mov	r1, r3
+ 1027 0154 554B     		ldr	r3, .L115+8
+ 1028 0156 9942     		cmp	r1, r3
+ 1029 0158 1DD0     		beq	.L76
+ 1030              		.loc 1 543 0 discriminator 5
+ 1031 015a FB68     		ldr	r3, [r7, #12]
+ 1032 015c 1B68     		ldr	r3, [r3]
+ 1033 015e 1946     		mov	r1, r3
+ 1034 0160 534B     		ldr	r3, .L115+12
+ 1035 0162 9942     		cmp	r1, r3
+ 1036 0164 14D0     		beq	.L77
+ 1037              		.loc 1 543 0 discriminator 7
+ 1038 0166 FB68     		ldr	r3, [r7, #12]
+ 1039 0168 1B68     		ldr	r3, [r3]
+ 1040 016a 1946     		mov	r1, r3
+ 1041 016c 514B     		ldr	r3, .L115+16
+ 1042 016e 9942     		cmp	r1, r3
+ 1043 0170 0BD0     		beq	.L78
+ 1044              		.loc 1 543 0 discriminator 9
+ 1045 0172 FB68     		ldr	r3, [r7, #12]
+ 1046 0174 1B68     		ldr	r3, [r3]
+ 1047 0176 1946     		mov	r1, r3
+ 1048 0178 4F4B     		ldr	r3, .L115+20
+ 1049 017a 9942     		cmp	r1, r3
+ 1050 017c 02D1     		bne	.L79
+ 1051              		.loc 1 543 0 discriminator 11
+ 1052 017e 4FF40003 		mov	r3, #8388608
+ 1053 0182 0EE0     		b	.L85
+ 1054              	.L79:
+ 1055              		.loc 1 543 0 discriminator 12
+ 1056 0184 4FF00063 		mov	r3, #134217728
+ 1057 0188 0BE0     		b	.L85
+ 1058              	.L78:
+ 1059              		.loc 1 543 0 discriminator 10
+ 1060 018a 4FF40023 		mov	r3, #524288
+ 1061 018e 08E0     		b	.L85
+ 1062              	.L77:
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 29
+
+
+ 1063              		.loc 1 543 0 discriminator 8
+ 1064 0190 4FF40043 		mov	r3, #32768
+ 1065 0194 05E0     		b	.L85
+ 1066              	.L76:
+ 1067              		.loc 1 543 0 discriminator 6
+ 1068 0196 4FF40063 		mov	r3, #2048
+ 1069 019a 02E0     		b	.L85
+ 1070              	.L75:
+ 1071              		.loc 1 543 0 discriminator 4
+ 1072 019c 8023     		movs	r3, #128
+ 1073 019e 00E0     		b	.L85
+ 1074              	.L74:
+ 1075              		.loc 1 543 0 discriminator 2
+ 1076 01a0 0823     		movs	r3, #8
+ 1077              	.L85:
+ 1078              		.loc 1 543 0 discriminator 24
+ 1079 01a2 1340     		ands	r3, r3, r2
+ 1080 01a4 002B     		cmp	r3, #0
+ 1081 01a6 17D0     		beq	.L86
+ 544:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 545:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* When a DMA transfer error occurs */
+ 546:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* A hardware clear of its EN bits is performed */
+ 547:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Clear all flags */
+ 548:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->DmaBaseAddress->IFCR = (DMA_ISR_GIF1 << hdma->ChannelIndex);
+ 1082              		.loc 1 548 0 is_stmt 1
+ 1083 01a8 FB68     		ldr	r3, [r7, #12]
+ 1084 01aa DB6B     		ldr	r3, [r3, #60]
+ 1085 01ac FA68     		ldr	r2, [r7, #12]
+ 1086 01ae 126C     		ldr	r2, [r2, #64]
+ 1087 01b0 0121     		movs	r1, #1
+ 1088 01b2 01FA02F2 		lsl	r2, r1, r2
+ 1089 01b6 5A60     		str	r2, [r3, #4]
+ 549:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 550:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Update error code */
+ 551:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       SET_BIT(hdma->ErrorCode, HAL_DMA_ERROR_TE);
+ 1090              		.loc 1 551 0
+ 1091 01b8 FB68     		ldr	r3, [r7, #12]
+ 1092 01ba 9B6B     		ldr	r3, [r3, #56]
+ 1093 01bc 43F00102 		orr	r2, r3, #1
+ 1094 01c0 FB68     		ldr	r3, [r7, #12]
+ 1095 01c2 9A63     		str	r2, [r3, #56]
+ 552:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 553:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Change the DMA state */
+ 554:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->State= HAL_DMA_STATE_READY;
+ 1096              		.loc 1 554 0
+ 1097 01c4 FB68     		ldr	r3, [r7, #12]
+ 1098 01c6 0122     		movs	r2, #1
+ 1099 01c8 83F82120 		strb	r2, [r3, #33]
+ 555:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 556:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Process Unlocked */
+ 557:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_UNLOCK(hdma);
+ 1100              		.loc 1 557 0
+ 1101 01cc FB68     		ldr	r3, [r7, #12]
+ 1102 01ce 0022     		movs	r2, #0
+ 1103 01d0 83F82020 		strb	r2, [r3, #32]
+ 558:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 559:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       return HAL_ERROR;
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 30
+
+
+ 1104              		.loc 1 559 0
+ 1105 01d4 0123     		movs	r3, #1
+ 1106 01d6 B0E0     		b	.L45
+ 1107              	.L86:
+ 560:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 561:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Check for the Timeout */
+ 562:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(Timeout != HAL_MAX_DELAY)
+ 1108              		.loc 1 562 0
+ 1109 01d8 7B68     		ldr	r3, [r7, #4]
+ 1110 01da B3F1FF3F 		cmp	r3, #-1
+ 1111 01de 1AD0     		beq	.L73
+ 563:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 564:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       if((Timeout == 0U) || ((HAL_GetTick() - tickstart) > Timeout))
+ 1112              		.loc 1 564 0
+ 1113 01e0 7B68     		ldr	r3, [r7, #4]
+ 1114 01e2 002B     		cmp	r3, #0
+ 1115 01e4 07D0     		beq	.L87
+ 1116              		.loc 1 564 0 is_stmt 0 discriminator 1
+ 1117 01e6 FFF7FEFF 		bl	HAL_GetTick
+ 1118 01ea 0246     		mov	r2, r0
+ 1119 01ec 3B69     		ldr	r3, [r7, #16]
+ 1120 01ee D21A     		subs	r2, r2, r3
+ 1121 01f0 7B68     		ldr	r3, [r7, #4]
+ 1122 01f2 9A42     		cmp	r2, r3
+ 1123 01f4 0FD9     		bls	.L73
+ 1124              	.L87:
+ 565:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       {
+ 566:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         /* Update error code */
+ 567:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         SET_BIT(hdma->ErrorCode, HAL_DMA_ERROR_TIMEOUT);
+ 1125              		.loc 1 567 0 is_stmt 1
+ 1126 01f6 FB68     		ldr	r3, [r7, #12]
+ 1127 01f8 9B6B     		ldr	r3, [r3, #56]
+ 1128 01fa 43F02002 		orr	r2, r3, #32
+ 1129 01fe FB68     		ldr	r3, [r7, #12]
+ 1130 0200 9A63     		str	r2, [r3, #56]
+ 568:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 569:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         /* Change the DMA state */
+ 570:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         hdma->State = HAL_DMA_STATE_READY;
+ 1131              		.loc 1 570 0
+ 1132 0202 FB68     		ldr	r3, [r7, #12]
+ 1133 0204 0122     		movs	r2, #1
+ 1134 0206 83F82120 		strb	r2, [r3, #33]
+ 571:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 572:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         /* Process Unlocked */
+ 573:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         __HAL_UNLOCK(hdma);
+ 1135              		.loc 1 573 0
+ 1136 020a FB68     		ldr	r3, [r7, #12]
+ 1137 020c 0022     		movs	r2, #0
+ 1138 020e 83F82020 		strb	r2, [r3, #32]
+ 574:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 575:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****         return HAL_ERROR;
+ 1139              		.loc 1 575 0
+ 1140 0212 0123     		movs	r3, #1
+ 1141 0214 91E0     		b	.L45
+ 1142              	.L73:
+ 541:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 1143              		.loc 1 541 0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 31
+
+
+ 1144 0216 294B     		ldr	r3, .L115+24
+ 1145 0218 1A68     		ldr	r2, [r3]
+ 1146 021a 7B69     		ldr	r3, [r7, #20]
+ 1147 021c 1340     		ands	r3, r3, r2
+ 1148 021e 002B     		cmp	r3, #0
+ 1149 0220 87D0     		beq	.L88
+ 576:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       }
+ 577:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 578:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 579:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 580:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
+ 1150              		.loc 1 580 0
+ 1151 0222 BB68     		ldr	r3, [r7, #8]
+ 1152 0224 002B     		cmp	r3, #0
+ 1153 0226 4BD1     		bne	.L89
+ 581:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 582:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear the transfer complete flag */
+ 583:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+ 1154              		.loc 1 583 0
+ 1155 0228 244A     		ldr	r2, .L115+24
+ 1156 022a FB68     		ldr	r3, [r7, #12]
+ 1157 022c 1B68     		ldr	r3, [r3]
+ 1158 022e 1946     		mov	r1, r3
+ 1159 0230 1C4B     		ldr	r3, .L115
+ 1160 0232 9942     		cmp	r1, r3
+ 1161 0234 2ED0     		beq	.L90
+ 1162              		.loc 1 583 0 is_stmt 0 discriminator 1
+ 1163 0236 FB68     		ldr	r3, [r7, #12]
+ 1164 0238 1B68     		ldr	r3, [r3]
+ 1165 023a 1946     		mov	r1, r3
+ 1166 023c 1A4B     		ldr	r3, .L115+4
+ 1167 023e 9942     		cmp	r1, r3
+ 1168 0240 26D0     		beq	.L91
+ 1169              		.loc 1 583 0 discriminator 3
+ 1170 0242 FB68     		ldr	r3, [r7, #12]
+ 1171 0244 1B68     		ldr	r3, [r3]
+ 1172 0246 1946     		mov	r1, r3
+ 1173 0248 184B     		ldr	r3, .L115+8
+ 1174 024a 9942     		cmp	r1, r3
+ 1175 024c 1DD0     		beq	.L92
+ 1176              		.loc 1 583 0 discriminator 5
+ 1177 024e FB68     		ldr	r3, [r7, #12]
+ 1178 0250 1B68     		ldr	r3, [r3]
+ 1179 0252 1946     		mov	r1, r3
+ 1180 0254 164B     		ldr	r3, .L115+12
+ 1181 0256 9942     		cmp	r1, r3
+ 1182 0258 14D0     		beq	.L93
+ 1183              		.loc 1 583 0 discriminator 7
+ 1184 025a FB68     		ldr	r3, [r7, #12]
+ 1185 025c 1B68     		ldr	r3, [r3]
+ 1186 025e 1946     		mov	r1, r3
+ 1187 0260 144B     		ldr	r3, .L115+16
+ 1188 0262 9942     		cmp	r1, r3
+ 1189 0264 0BD0     		beq	.L94
+ 1190              		.loc 1 583 0 discriminator 9
+ 1191 0266 FB68     		ldr	r3, [r7, #12]
+ 1192 0268 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 32
+
+
+ 1193 026a 1946     		mov	r1, r3
+ 1194 026c 124B     		ldr	r3, .L115+20
+ 1195 026e 9942     		cmp	r1, r3
+ 1196 0270 02D1     		bne	.L95
+ 1197              		.loc 1 583 0 discriminator 11
+ 1198 0272 4FF40013 		mov	r3, #2097152
+ 1199 0276 0EE0     		b	.L101
+ 1200              	.L95:
+ 1201              		.loc 1 583 0 discriminator 12
+ 1202 0278 4FF00073 		mov	r3, #33554432
+ 1203 027c 0BE0     		b	.L101
+ 1204              	.L94:
+ 1205              		.loc 1 583 0 discriminator 10
+ 1206 027e 4FF40033 		mov	r3, #131072
+ 1207 0282 08E0     		b	.L101
+ 1208              	.L93:
+ 1209              		.loc 1 583 0 discriminator 8
+ 1210 0284 4FF40053 		mov	r3, #8192
+ 1211 0288 05E0     		b	.L101
+ 1212              	.L92:
+ 1213              		.loc 1 583 0 discriminator 6
+ 1214 028a 4FF40073 		mov	r3, #512
+ 1215 028e 02E0     		b	.L101
+ 1216              	.L91:
+ 1217              		.loc 1 583 0 discriminator 4
+ 1218 0290 2023     		movs	r3, #32
+ 1219 0292 00E0     		b	.L101
+ 1220              	.L90:
+ 1221              		.loc 1 583 0 discriminator 2
+ 1222 0294 0223     		movs	r3, #2
+ 1223              	.L101:
+ 1224              		.loc 1 583 0 discriminator 24
+ 1225 0296 5360     		str	r3, [r2, #4]
+ 584:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 585:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* The selected Channelx EN bit is cleared (DMA is disabled and
+ 586:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     all transfers are complete) */
+ 587:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->State = HAL_DMA_STATE_READY;
+ 1226              		.loc 1 587 0 is_stmt 1 discriminator 24
+ 1227 0298 FB68     		ldr	r3, [r7, #12]
+ 1228 029a 0122     		movs	r2, #1
+ 1229 029c 83F82120 		strb	r2, [r3, #33]
+ 1230 02a0 46E0     		b	.L102
+ 1231              	.L116:
+ 1232 02a2 00BF     		.align	2
+ 1233              	.L115:
+ 1234 02a4 08000240 		.word	1073872904
+ 1235 02a8 1C000240 		.word	1073872924
+ 1236 02ac 30000240 		.word	1073872944
+ 1237 02b0 44000240 		.word	1073872964
+ 1238 02b4 58000240 		.word	1073872984
+ 1239 02b8 6C000240 		.word	1073873004
+ 1240 02bc 00000240 		.word	1073872896
+ 1241              	.L89:
+ 588:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 589:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 590:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 591:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear the half transfer complete flag */
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 33
+
+
+ 592:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+ 1242              		.loc 1 592 0
+ 1243 02c0 204A     		ldr	r2, .L117
+ 1244 02c2 FB68     		ldr	r3, [r7, #12]
+ 1245 02c4 1B68     		ldr	r3, [r3]
+ 1246 02c6 1946     		mov	r1, r3
+ 1247 02c8 1F4B     		ldr	r3, .L117+4
+ 1248 02ca 9942     		cmp	r1, r3
+ 1249 02cc 2ED0     		beq	.L103
+ 1250              		.loc 1 592 0 is_stmt 0 discriminator 1
+ 1251 02ce FB68     		ldr	r3, [r7, #12]
+ 1252 02d0 1B68     		ldr	r3, [r3]
+ 1253 02d2 1946     		mov	r1, r3
+ 1254 02d4 1D4B     		ldr	r3, .L117+8
+ 1255 02d6 9942     		cmp	r1, r3
+ 1256 02d8 26D0     		beq	.L104
+ 1257              		.loc 1 592 0 discriminator 3
+ 1258 02da FB68     		ldr	r3, [r7, #12]
+ 1259 02dc 1B68     		ldr	r3, [r3]
+ 1260 02de 1946     		mov	r1, r3
+ 1261 02e0 1B4B     		ldr	r3, .L117+12
+ 1262 02e2 9942     		cmp	r1, r3
+ 1263 02e4 1DD0     		beq	.L105
+ 1264              		.loc 1 592 0 discriminator 5
+ 1265 02e6 FB68     		ldr	r3, [r7, #12]
+ 1266 02e8 1B68     		ldr	r3, [r3]
+ 1267 02ea 1946     		mov	r1, r3
+ 1268 02ec 194B     		ldr	r3, .L117+16
+ 1269 02ee 9942     		cmp	r1, r3
+ 1270 02f0 14D0     		beq	.L106
+ 1271              		.loc 1 592 0 discriminator 7
+ 1272 02f2 FB68     		ldr	r3, [r7, #12]
+ 1273 02f4 1B68     		ldr	r3, [r3]
+ 1274 02f6 1946     		mov	r1, r3
+ 1275 02f8 174B     		ldr	r3, .L117+20
+ 1276 02fa 9942     		cmp	r1, r3
+ 1277 02fc 0BD0     		beq	.L107
+ 1278              		.loc 1 592 0 discriminator 9
+ 1279 02fe FB68     		ldr	r3, [r7, #12]
+ 1280 0300 1B68     		ldr	r3, [r3]
+ 1281 0302 1946     		mov	r1, r3
+ 1282 0304 154B     		ldr	r3, .L117+24
+ 1283 0306 9942     		cmp	r1, r3
+ 1284 0308 02D1     		bne	.L108
+ 1285              		.loc 1 592 0 discriminator 11
+ 1286 030a 4FF48003 		mov	r3, #4194304
+ 1287 030e 0EE0     		b	.L114
+ 1288              	.L108:
+ 1289              		.loc 1 592 0 discriminator 12
+ 1290 0310 4FF08063 		mov	r3, #67108864
+ 1291 0314 0BE0     		b	.L114
+ 1292              	.L107:
+ 1293              		.loc 1 592 0 discriminator 10
+ 1294 0316 4FF48023 		mov	r3, #262144
+ 1295 031a 08E0     		b	.L114
+ 1296              	.L106:
+ 1297              		.loc 1 592 0 discriminator 8
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 34
+
+
+ 1298 031c 4FF48043 		mov	r3, #16384
+ 1299 0320 05E0     		b	.L114
+ 1300              	.L105:
+ 1301              		.loc 1 592 0 discriminator 6
+ 1302 0322 4FF48063 		mov	r3, #1024
+ 1303 0326 02E0     		b	.L114
+ 1304              	.L104:
+ 1305              		.loc 1 592 0 discriminator 4
+ 1306 0328 4023     		movs	r3, #64
+ 1307 032a 00E0     		b	.L114
+ 1308              	.L103:
+ 1309              		.loc 1 592 0 discriminator 2
+ 1310 032c 0423     		movs	r3, #4
+ 1311              	.L114:
+ 1312              		.loc 1 592 0 discriminator 24
+ 1313 032e 5360     		str	r3, [r2, #4]
+ 1314              	.L102:
+ 593:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 594:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 595:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process unlocked */
+ 596:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_UNLOCK(hdma);
+ 1315              		.loc 1 596 0 is_stmt 1
+ 1316 0330 FB68     		ldr	r3, [r7, #12]
+ 1317 0332 0022     		movs	r2, #0
+ 1318 0334 83F82020 		strb	r2, [r3, #32]
+ 597:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 598:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return HAL_OK;
+ 1319              		.loc 1 598 0
+ 1320 0338 0023     		movs	r3, #0
+ 1321              	.L45:
+ 599:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 1322              		.loc 1 599 0
+ 1323 033a 1846     		mov	r0, r3
+ 1324 033c 1837     		adds	r7, r7, #24
+ 1325              	.LCFI36:
+ 1326              		.cfi_def_cfa_offset 8
+ 1327 033e BD46     		mov	sp, r7
+ 1328              	.LCFI37:
+ 1329              		.cfi_def_cfa_register 13
+ 1330              		@ sp needed
+ 1331 0340 80BD     		pop	{r7, pc}
+ 1332              	.L118:
+ 1333 0342 00BF     		.align	2
+ 1334              	.L117:
+ 1335 0344 00000240 		.word	1073872896
+ 1336 0348 08000240 		.word	1073872904
+ 1337 034c 1C000240 		.word	1073872924
+ 1338 0350 30000240 		.word	1073872944
+ 1339 0354 44000240 		.word	1073872964
+ 1340 0358 58000240 		.word	1073872984
+ 1341 035c 6C000240 		.word	1073873004
+ 1342              		.cfi_endproc
+ 1343              	.LFE70:
+ 1345              		.section	.text.HAL_DMA_IRQHandler,"ax",%progbits
+ 1346              		.align	2
+ 1347              		.global	HAL_DMA_IRQHandler
+ 1348              		.thumb
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 35
+
+
+ 1349              		.thumb_func
+ 1351              	HAL_DMA_IRQHandler:
+ 1352              	.LFB71:
+ 600:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 601:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 602:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Handles DMA interrupt request.
+ 603:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 604:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.  
+ 605:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval None
+ 606:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 607:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
+ 608:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 1353              		.loc 1 608 0
+ 1354              		.cfi_startproc
+ 1355              		@ args = 0, pretend = 0, frame = 16
+ 1356              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1357 0000 80B5     		push	{r7, lr}
+ 1358              	.LCFI38:
+ 1359              		.cfi_def_cfa_offset 8
+ 1360              		.cfi_offset 7, -8
+ 1361              		.cfi_offset 14, -4
+ 1362 0002 84B0     		sub	sp, sp, #16
+ 1363              	.LCFI39:
+ 1364              		.cfi_def_cfa_offset 24
+ 1365 0004 00AF     		add	r7, sp, #0
+ 1366              	.LCFI40:
+ 1367              		.cfi_def_cfa_register 7
+ 1368 0006 7860     		str	r0, [r7, #4]
+ 609:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   uint32_t flag_it = hdma->DmaBaseAddress->ISR;
+ 1369              		.loc 1 609 0
+ 1370 0008 7B68     		ldr	r3, [r7, #4]
+ 1371 000a DB6B     		ldr	r3, [r3, #60]
+ 1372 000c 1B68     		ldr	r3, [r3]
+ 1373 000e FB60     		str	r3, [r7, #12]
+ 610:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   uint32_t source_it = hdma->Instance->CCR;
+ 1374              		.loc 1 610 0
+ 1375 0010 7B68     		ldr	r3, [r7, #4]
+ 1376 0012 1B68     		ldr	r3, [r3]
+ 1377 0014 1B68     		ldr	r3, [r3]
+ 1378 0016 BB60     		str	r3, [r7, #8]
+ 611:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 612:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Half Transfer Complete Interrupt management ******************************/
+ 613:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if (((flag_it & (DMA_FLAG_HT1 << hdma->ChannelIndex)) != RESET) && ((source_it & DMA_IT_HT) != RE
+ 1379              		.loc 1 613 0
+ 1380 0018 7B68     		ldr	r3, [r7, #4]
+ 1381 001a 1B6C     		ldr	r3, [r3, #64]
+ 1382 001c 0422     		movs	r2, #4
+ 1383 001e 9A40     		lsls	r2, r2, r3
+ 1384 0020 FB68     		ldr	r3, [r7, #12]
+ 1385 0022 1340     		ands	r3, r3, r2
+ 1386 0024 002B     		cmp	r3, #0
+ 1387 0026 55D0     		beq	.L120
+ 1388              		.loc 1 613 0 is_stmt 0 discriminator 1
+ 1389 0028 BB68     		ldr	r3, [r7, #8]
+ 1390 002a 03F00403 		and	r3, r3, #4
+ 1391 002e 002B     		cmp	r3, #0
+ 1392 0030 50D0     		beq	.L120
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 36
+
+
+ 614:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 615:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable the half transfer interrupt if the DMA mode is not CIRCULAR */
+ 616:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0U)
+ 1393              		.loc 1 616 0 is_stmt 1
+ 1394 0032 7B68     		ldr	r3, [r7, #4]
+ 1395 0034 1B68     		ldr	r3, [r3]
+ 1396 0036 1B68     		ldr	r3, [r3]
+ 1397 0038 03F02003 		and	r3, r3, #32
+ 1398 003c 002B     		cmp	r3, #0
+ 1399 003e 07D1     		bne	.L121
+ 617:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 618:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Disable the half transfer interrupt */
+ 619:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT);
+ 1400              		.loc 1 619 0
+ 1401 0040 7B68     		ldr	r3, [r7, #4]
+ 1402 0042 1B68     		ldr	r3, [r3]
+ 1403 0044 7A68     		ldr	r2, [r7, #4]
+ 1404 0046 1268     		ldr	r2, [r2]
+ 1405 0048 1268     		ldr	r2, [r2]
+ 1406 004a 22F00402 		bic	r2, r2, #4
+ 1407 004e 1A60     		str	r2, [r3]
+ 1408              	.L121:
+ 620:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 621:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear the half transfer complete flag */
+ 622:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+ 1409              		.loc 1 622 0
+ 1410 0050 6D4A     		ldr	r2, .L153
+ 1411 0052 7B68     		ldr	r3, [r7, #4]
+ 1412 0054 1B68     		ldr	r3, [r3]
+ 1413 0056 1946     		mov	r1, r3
+ 1414 0058 6C4B     		ldr	r3, .L153+4
+ 1415 005a 9942     		cmp	r1, r3
+ 1416 005c 2ED0     		beq	.L122
+ 1417              		.loc 1 622 0 is_stmt 0 discriminator 1
+ 1418 005e 7B68     		ldr	r3, [r7, #4]
+ 1419 0060 1B68     		ldr	r3, [r3]
+ 1420 0062 1946     		mov	r1, r3
+ 1421 0064 6A4B     		ldr	r3, .L153+8
+ 1422 0066 9942     		cmp	r1, r3
+ 1423 0068 26D0     		beq	.L123
+ 1424              		.loc 1 622 0 discriminator 3
+ 1425 006a 7B68     		ldr	r3, [r7, #4]
+ 1426 006c 1B68     		ldr	r3, [r3]
+ 1427 006e 1946     		mov	r1, r3
+ 1428 0070 684B     		ldr	r3, .L153+12
+ 1429 0072 9942     		cmp	r1, r3
+ 1430 0074 1DD0     		beq	.L124
+ 1431              		.loc 1 622 0 discriminator 5
+ 1432 0076 7B68     		ldr	r3, [r7, #4]
+ 1433 0078 1B68     		ldr	r3, [r3]
+ 1434 007a 1946     		mov	r1, r3
+ 1435 007c 664B     		ldr	r3, .L153+16
+ 1436 007e 9942     		cmp	r1, r3
+ 1437 0080 14D0     		beq	.L125
+ 1438              		.loc 1 622 0 discriminator 7
+ 1439 0082 7B68     		ldr	r3, [r7, #4]
+ 1440 0084 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 37
+
+
+ 1441 0086 1946     		mov	r1, r3
+ 1442 0088 644B     		ldr	r3, .L153+20
+ 1443 008a 9942     		cmp	r1, r3
+ 1444 008c 0BD0     		beq	.L126
+ 1445              		.loc 1 622 0 discriminator 9
+ 1446 008e 7B68     		ldr	r3, [r7, #4]
+ 1447 0090 1B68     		ldr	r3, [r3]
+ 1448 0092 1946     		mov	r1, r3
+ 1449 0094 624B     		ldr	r3, .L153+24
+ 1450 0096 9942     		cmp	r1, r3
+ 1451 0098 02D1     		bne	.L127
+ 1452              		.loc 1 622 0 discriminator 11
+ 1453 009a 4FF48003 		mov	r3, #4194304
+ 1454 009e 0EE0     		b	.L133
+ 1455              	.L127:
+ 1456              		.loc 1 622 0 discriminator 12
+ 1457 00a0 4FF08063 		mov	r3, #67108864
+ 1458 00a4 0BE0     		b	.L133
+ 1459              	.L126:
+ 1460              		.loc 1 622 0 discriminator 10
+ 1461 00a6 4FF48023 		mov	r3, #262144
+ 1462 00aa 08E0     		b	.L133
+ 1463              	.L125:
+ 1464              		.loc 1 622 0 discriminator 8
+ 1465 00ac 4FF48043 		mov	r3, #16384
+ 1466 00b0 05E0     		b	.L133
+ 1467              	.L124:
+ 1468              		.loc 1 622 0 discriminator 6
+ 1469 00b2 4FF48063 		mov	r3, #1024
+ 1470 00b6 02E0     		b	.L133
+ 1471              	.L123:
+ 1472              		.loc 1 622 0 discriminator 4
+ 1473 00b8 4023     		movs	r3, #64
+ 1474 00ba 00E0     		b	.L133
+ 1475              	.L122:
+ 1476              		.loc 1 622 0 discriminator 2
+ 1477 00bc 0423     		movs	r3, #4
+ 1478              	.L133:
+ 1479              		.loc 1 622 0 discriminator 24
+ 1480 00be 5360     		str	r3, [r2, #4]
+ 623:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 624:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* DMA peripheral state is not updated in Half Transfer */
+ 625:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* but in Transfer Complete case */
+ 626:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 627:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(hdma->XferHalfCpltCallback != NULL)
+ 1481              		.loc 1 627 0 is_stmt 1 discriminator 24
+ 1482 00c0 7B68     		ldr	r3, [r7, #4]
+ 1483 00c2 DB6A     		ldr	r3, [r3, #44]
+ 1484 00c4 002B     		cmp	r3, #0
+ 1485 00c6 00F09A80 		beq	.L135
+ 628:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 629:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Half transfer callback */
+ 630:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferHalfCpltCallback(hdma);
+ 1486              		.loc 1 630 0
+ 1487 00ca 7B68     		ldr	r3, [r7, #4]
+ 1488 00cc DB6A     		ldr	r3, [r3, #44]
+ 1489 00ce 7868     		ldr	r0, [r7, #4]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 38
+
+
+ 1490 00d0 9847     		blx	r3
+ 627:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 1491              		.loc 1 627 0
+ 1492 00d2 94E0     		b	.L135
+ 1493              	.L120:
+ 631:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 632:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 633:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 634:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Transfer Complete Interrupt management ***********************************/
+ 635:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else if (((flag_it & (DMA_FLAG_TC1 << hdma->ChannelIndex)) != RESET) && ((source_it & DMA_IT_TC) 
+ 1494              		.loc 1 635 0
+ 1495 00d4 7B68     		ldr	r3, [r7, #4]
+ 1496 00d6 1B6C     		ldr	r3, [r3, #64]
+ 1497 00d8 0222     		movs	r2, #2
+ 1498 00da 9A40     		lsls	r2, r2, r3
+ 1499 00dc FB68     		ldr	r3, [r7, #12]
+ 1500 00de 1340     		ands	r3, r3, r2
+ 1501 00e0 002B     		cmp	r3, #0
+ 1502 00e2 5CD0     		beq	.L136
+ 1503              		.loc 1 635 0 is_stmt 0 discriminator 1
+ 1504 00e4 BB68     		ldr	r3, [r7, #8]
+ 1505 00e6 03F00203 		and	r3, r3, #2
+ 1506 00ea 002B     		cmp	r3, #0
+ 1507 00ec 57D0     		beq	.L136
+ 636:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 637:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0U)
+ 1508              		.loc 1 637 0 is_stmt 1
+ 1509 00ee 7B68     		ldr	r3, [r7, #4]
+ 1510 00f0 1B68     		ldr	r3, [r3]
+ 1511 00f2 1B68     		ldr	r3, [r3]
+ 1512 00f4 03F02003 		and	r3, r3, #32
+ 1513 00f8 002B     		cmp	r3, #0
+ 1514 00fa 0BD1     		bne	.L137
+ 638:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 639:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Disable the transfer complete and error interrupt */
+ 640:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_DISABLE_IT(hdma, DMA_IT_TE | DMA_IT_TC);  
+ 1515              		.loc 1 640 0
+ 1516 00fc 7B68     		ldr	r3, [r7, #4]
+ 1517 00fe 1B68     		ldr	r3, [r3]
+ 1518 0100 7A68     		ldr	r2, [r7, #4]
+ 1519 0102 1268     		ldr	r2, [r2]
+ 1520 0104 1268     		ldr	r2, [r2]
+ 1521 0106 22F00A02 		bic	r2, r2, #10
+ 1522 010a 1A60     		str	r2, [r3]
+ 641:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 642:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Change the DMA state */
+ 643:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->State = HAL_DMA_STATE_READY;
+ 1523              		.loc 1 643 0
+ 1524 010c 7B68     		ldr	r3, [r7, #4]
+ 1525 010e 0122     		movs	r2, #1
+ 1526 0110 83F82120 		strb	r2, [r3, #33]
+ 1527              	.L137:
+ 644:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 645:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear the transfer complete flag */
+ 646:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+ 1528              		.loc 1 646 0
+ 1529 0114 3C4A     		ldr	r2, .L153
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 39
+
+
+ 1530 0116 7B68     		ldr	r3, [r7, #4]
+ 1531 0118 1B68     		ldr	r3, [r3]
+ 1532 011a 1946     		mov	r1, r3
+ 1533 011c 3B4B     		ldr	r3, .L153+4
+ 1534 011e 9942     		cmp	r1, r3
+ 1535 0120 2ED0     		beq	.L138
+ 1536              		.loc 1 646 0 is_stmt 0 discriminator 1
+ 1537 0122 7B68     		ldr	r3, [r7, #4]
+ 1538 0124 1B68     		ldr	r3, [r3]
+ 1539 0126 1946     		mov	r1, r3
+ 1540 0128 394B     		ldr	r3, .L153+8
+ 1541 012a 9942     		cmp	r1, r3
+ 1542 012c 26D0     		beq	.L139
+ 1543              		.loc 1 646 0 discriminator 3
+ 1544 012e 7B68     		ldr	r3, [r7, #4]
+ 1545 0130 1B68     		ldr	r3, [r3]
+ 1546 0132 1946     		mov	r1, r3
+ 1547 0134 374B     		ldr	r3, .L153+12
+ 1548 0136 9942     		cmp	r1, r3
+ 1549 0138 1DD0     		beq	.L140
+ 1550              		.loc 1 646 0 discriminator 5
+ 1551 013a 7B68     		ldr	r3, [r7, #4]
+ 1552 013c 1B68     		ldr	r3, [r3]
+ 1553 013e 1946     		mov	r1, r3
+ 1554 0140 354B     		ldr	r3, .L153+16
+ 1555 0142 9942     		cmp	r1, r3
+ 1556 0144 14D0     		beq	.L141
+ 1557              		.loc 1 646 0 discriminator 7
+ 1558 0146 7B68     		ldr	r3, [r7, #4]
+ 1559 0148 1B68     		ldr	r3, [r3]
+ 1560 014a 1946     		mov	r1, r3
+ 1561 014c 334B     		ldr	r3, .L153+20
+ 1562 014e 9942     		cmp	r1, r3
+ 1563 0150 0BD0     		beq	.L142
+ 1564              		.loc 1 646 0 discriminator 9
+ 1565 0152 7B68     		ldr	r3, [r7, #4]
+ 1566 0154 1B68     		ldr	r3, [r3]
+ 1567 0156 1946     		mov	r1, r3
+ 1568 0158 314B     		ldr	r3, .L153+24
+ 1569 015a 9942     		cmp	r1, r3
+ 1570 015c 02D1     		bne	.L143
+ 1571              		.loc 1 646 0 discriminator 11
+ 1572 015e 4FF40013 		mov	r3, #2097152
+ 1573 0162 0EE0     		b	.L149
+ 1574              	.L143:
+ 1575              		.loc 1 646 0 discriminator 12
+ 1576 0164 4FF00073 		mov	r3, #33554432
+ 1577 0168 0BE0     		b	.L149
+ 1578              	.L142:
+ 1579              		.loc 1 646 0 discriminator 10
+ 1580 016a 4FF40033 		mov	r3, #131072
+ 1581 016e 08E0     		b	.L149
+ 1582              	.L141:
+ 1583              		.loc 1 646 0 discriminator 8
+ 1584 0170 4FF40053 		mov	r3, #8192
+ 1585 0174 05E0     		b	.L149
+ 1586              	.L140:
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 40
+
+
+ 1587              		.loc 1 646 0 discriminator 6
+ 1588 0176 4FF40073 		mov	r3, #512
+ 1589 017a 02E0     		b	.L149
+ 1590              	.L139:
+ 1591              		.loc 1 646 0 discriminator 4
+ 1592 017c 2023     		movs	r3, #32
+ 1593 017e 00E0     		b	.L149
+ 1594              	.L138:
+ 1595              		.loc 1 646 0 discriminator 2
+ 1596 0180 0223     		movs	r3, #2
+ 1597              	.L149:
+ 1598              		.loc 1 646 0 discriminator 24
+ 1599 0182 5360     		str	r3, [r2, #4]
+ 647:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 648:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Process Unlocked */
+ 649:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
+ 1600              		.loc 1 649 0 is_stmt 1 discriminator 24
+ 1601 0184 7B68     		ldr	r3, [r7, #4]
+ 1602 0186 0022     		movs	r2, #0
+ 1603 0188 83F82020 		strb	r2, [r3, #32]
+ 650:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 651:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(hdma->XferCpltCallback != NULL)
+ 1604              		.loc 1 651 0 discriminator 24
+ 1605 018c 7B68     		ldr	r3, [r7, #4]
+ 1606 018e 9B6A     		ldr	r3, [r3, #40]
+ 1607 0190 002B     		cmp	r3, #0
+ 1608 0192 34D0     		beq	.L135
+ 652:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 653:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Transfer complete callback */
+ 654:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferCpltCallback(hdma);
+ 1609              		.loc 1 654 0
+ 1610 0194 7B68     		ldr	r3, [r7, #4]
+ 1611 0196 9B6A     		ldr	r3, [r3, #40]
+ 1612 0198 7868     		ldr	r0, [r7, #4]
+ 1613 019a 9847     		blx	r3
+ 651:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 1614              		.loc 1 651 0
+ 1615 019c 2FE0     		b	.L135
+ 1616              	.L136:
+ 655:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 656:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 657:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 658:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Transfer Error Interrupt management **************************************/
+ 659:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else if (( RESET != (flag_it & (DMA_FLAG_TE1 << hdma->ChannelIndex))) && (RESET != (source_it & D
+ 1617              		.loc 1 659 0
+ 1618 019e 7B68     		ldr	r3, [r7, #4]
+ 1619 01a0 1B6C     		ldr	r3, [r3, #64]
+ 1620 01a2 0822     		movs	r2, #8
+ 1621 01a4 9A40     		lsls	r2, r2, r3
+ 1622 01a6 FB68     		ldr	r3, [r7, #12]
+ 1623 01a8 1340     		ands	r3, r3, r2
+ 1624 01aa 002B     		cmp	r3, #0
+ 1625 01ac 28D0     		beq	.L152
+ 1626              		.loc 1 659 0 is_stmt 0 discriminator 1
+ 1627 01ae BB68     		ldr	r3, [r7, #8]
+ 1628 01b0 03F00803 		and	r3, r3, #8
+ 1629 01b4 002B     		cmp	r3, #0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 41
+
+
+ 1630 01b6 23D0     		beq	.L152
+ 660:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 661:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* When a DMA transfer error occurs */
+ 662:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* A hardware clear of its EN bits is performed */
+ 663:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Disable ALL DMA IT */
+ 664:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_DMA_DISABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+ 1631              		.loc 1 664 0 is_stmt 1
+ 1632 01b8 7B68     		ldr	r3, [r7, #4]
+ 1633 01ba 1B68     		ldr	r3, [r3]
+ 1634 01bc 7A68     		ldr	r2, [r7, #4]
+ 1635 01be 1268     		ldr	r2, [r2]
+ 1636 01c0 1268     		ldr	r2, [r2]
+ 1637 01c2 22F00E02 		bic	r2, r2, #14
+ 1638 01c6 1A60     		str	r2, [r3]
+ 665:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 666:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Clear all flags */
+ 667:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->DmaBaseAddress->IFCR = (DMA_ISR_GIF1 << hdma->ChannelIndex);
+ 1639              		.loc 1 667 0
+ 1640 01c8 7B68     		ldr	r3, [r7, #4]
+ 1641 01ca DB6B     		ldr	r3, [r3, #60]
+ 1642 01cc 7A68     		ldr	r2, [r7, #4]
+ 1643 01ce 126C     		ldr	r2, [r2, #64]
+ 1644 01d0 0121     		movs	r1, #1
+ 1645 01d2 01FA02F2 		lsl	r2, r1, r2
+ 1646 01d6 5A60     		str	r2, [r3, #4]
+ 668:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 669:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Update error code */
+ 670:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->ErrorCode = HAL_DMA_ERROR_TE;
+ 1647              		.loc 1 670 0
+ 1648 01d8 7B68     		ldr	r3, [r7, #4]
+ 1649 01da 0122     		movs	r2, #1
+ 1650 01dc 9A63     		str	r2, [r3, #56]
+ 671:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 672:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Change the DMA state */
+ 673:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->State = HAL_DMA_STATE_READY;
+ 1651              		.loc 1 673 0
+ 1652 01de 7B68     		ldr	r3, [r7, #4]
+ 1653 01e0 0122     		movs	r2, #1
+ 1654 01e2 83F82120 		strb	r2, [r3, #33]
+ 674:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 675:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Process Unlocked */
+ 676:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
+ 1655              		.loc 1 676 0
+ 1656 01e6 7B68     		ldr	r3, [r7, #4]
+ 1657 01e8 0022     		movs	r2, #0
+ 1658 01ea 83F82020 		strb	r2, [r3, #32]
+ 677:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 678:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if (hdma->XferErrorCallback != NULL)
+ 1659              		.loc 1 678 0
+ 1660 01ee 7B68     		ldr	r3, [r7, #4]
+ 1661 01f0 1B6B     		ldr	r3, [r3, #48]
+ 1662 01f2 002B     		cmp	r3, #0
+ 1663 01f4 04D0     		beq	.L152
+ 679:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 680:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Transfer error callback */
+ 681:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback(hdma);
+ 1664              		.loc 1 681 0
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 42
+
+
+ 1665 01f6 7B68     		ldr	r3, [r7, #4]
+ 1666 01f8 1B6B     		ldr	r3, [r3, #48]
+ 1667 01fa 7868     		ldr	r0, [r7, #4]
+ 1668 01fc 9847     		blx	r3
+ 1669              	.L135:
+ 682:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 683:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 684:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return;
+ 1670              		.loc 1 684 0 discriminator 1
+ 1671 01fe 00BF     		nop
+ 1672              	.L152:
+ 1673              		.loc 1 684 0 is_stmt 0
+ 1674 0200 00BF     		nop
+ 685:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 1675              		.loc 1 685 0 is_stmt 1
+ 1676 0202 1037     		adds	r7, r7, #16
+ 1677              	.LCFI41:
+ 1678              		.cfi_def_cfa_offset 8
+ 1679 0204 BD46     		mov	sp, r7
+ 1680              	.LCFI42:
+ 1681              		.cfi_def_cfa_register 13
+ 1682              		@ sp needed
+ 1683 0206 80BD     		pop	{r7, pc}
+ 1684              	.L154:
+ 1685              		.align	2
+ 1686              	.L153:
+ 1687 0208 00000240 		.word	1073872896
+ 1688 020c 08000240 		.word	1073872904
+ 1689 0210 1C000240 		.word	1073872924
+ 1690 0214 30000240 		.word	1073872944
+ 1691 0218 44000240 		.word	1073872964
+ 1692 021c 58000240 		.word	1073872984
+ 1693 0220 6C000240 		.word	1073873004
+ 1694              		.cfi_endproc
+ 1695              	.LFE71:
+ 1697              		.section	.text.HAL_DMA_RegisterCallback,"ax",%progbits
+ 1698              		.align	2
+ 1699              		.global	HAL_DMA_RegisterCallback
+ 1700              		.thumb
+ 1701              		.thumb_func
+ 1703              	HAL_DMA_RegisterCallback:
+ 1704              	.LFB72:
+ 686:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 687:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 688:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief Register callbacks
+ 689:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 690:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *              the configuration information for the specified DMA Channel.
+ 691:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param CallbackID: User Callback identifer
+ 692:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                    a HAL_DMA_CallbackIDTypeDef ENUM as parameter.
+ 693:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param pCallback: pointer to private callbacsk function which has pointer to 
+ 694:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                   a DMA_HandleTypeDef structure as parameter.
+ 695:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 696:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */                          
+ 697:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_RegisterCallback(DMA_HandleTypeDef *hdma, HAL_DMA_CallbackIDTypeDef Callb
+ 698:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 1705              		.loc 1 698 0
+ 1706              		.cfi_startproc
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 43
+
+
+ 1707              		@ args = 0, pretend = 0, frame = 24
+ 1708              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1709              		@ link register save eliminated.
+ 1710 0000 80B4     		push	{r7}
+ 1711              	.LCFI43:
+ 1712              		.cfi_def_cfa_offset 4
+ 1713              		.cfi_offset 7, -4
+ 1714 0002 87B0     		sub	sp, sp, #28
+ 1715              	.LCFI44:
+ 1716              		.cfi_def_cfa_offset 32
+ 1717 0004 00AF     		add	r7, sp, #0
+ 1718              	.LCFI45:
+ 1719              		.cfi_def_cfa_register 7
+ 1720 0006 F860     		str	r0, [r7, #12]
+ 1721 0008 0B46     		mov	r3, r1
+ 1722 000a 7A60     		str	r2, [r7, #4]
+ 1723 000c FB72     		strb	r3, [r7, #11]
+ 699:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 1724              		.loc 1 699 0
+ 1725 000e 0023     		movs	r3, #0
+ 1726 0010 FB75     		strb	r3, [r7, #23]
+ 700:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 701:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process locked */
+ 702:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_LOCK(hdma);
+ 1727              		.loc 1 702 0
+ 1728 0012 FB68     		ldr	r3, [r7, #12]
+ 1729 0014 93F82030 		ldrb	r3, [r3, #32]	@ zero_extendqisi2
+ 1730 0018 012B     		cmp	r3, #1
+ 1731 001a 01D1     		bne	.L156
+ 1732              		.loc 1 702 0 is_stmt 0 discriminator 1
+ 1733 001c 0223     		movs	r3, #2
+ 1734 001e 32E0     		b	.L157
+ 1735              	.L156:
+ 1736              		.loc 1 702 0 discriminator 2
+ 1737 0020 FB68     		ldr	r3, [r7, #12]
+ 1738 0022 0122     		movs	r2, #1
+ 1739 0024 83F82020 		strb	r2, [r3, #32]
+ 703:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 704:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_READY == hdma->State)
+ 1740              		.loc 1 704 0 is_stmt 1 discriminator 2
+ 1741 0028 FB68     		ldr	r3, [r7, #12]
+ 1742 002a 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 1743 002e 012B     		cmp	r3, #1
+ 1744 0030 22D1     		bne	.L158
+ 705:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 706:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     switch (CallbackID)
+ 1745              		.loc 1 706 0
+ 1746 0032 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 1747 0034 032B     		cmp	r3, #3
+ 1748 0036 1BD8     		bhi	.L159
+ 1749 0038 01A2     		adr	r2, .L161
+ 1750 003a 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 1751 003e 00BF     		.p2align 2
+ 1752              	.L161:
+ 1753 0040 51000000 		.word	.L160+1
+ 1754 0044 59000000 		.word	.L162+1
+ 1755 0048 61000000 		.word	.L163+1
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 44
+
+
+ 1756 004c 69000000 		.word	.L164+1
+ 1757              		.p2align 1
+ 1758              	.L160:
+ 707:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 708:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_CPLT_CB_ID:
+ 709:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferCpltCallback = pCallback;
+ 1759              		.loc 1 709 0
+ 1760 0050 FB68     		ldr	r3, [r7, #12]
+ 1761 0052 7A68     		ldr	r2, [r7, #4]
+ 1762 0054 9A62     		str	r2, [r3, #40]
+ 710:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;
+ 1763              		.loc 1 710 0
+ 1764 0056 11E0     		b	.L166
+ 1765              	.L162:
+ 711:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       
+ 712:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_HALFCPLT_CB_ID:
+ 713:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferHalfCpltCallback = pCallback;
+ 1766              		.loc 1 713 0
+ 1767 0058 FB68     		ldr	r3, [r7, #12]
+ 1768 005a 7A68     		ldr	r2, [r7, #4]
+ 1769 005c DA62     		str	r2, [r3, #44]
+ 714:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
+ 1770              		.loc 1 714 0
+ 1771 005e 0DE0     		b	.L166
+ 1772              	.L163:
+ 715:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 716:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_ERROR_CB_ID:
+ 717:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback = pCallback;
+ 1773              		.loc 1 717 0
+ 1774 0060 FB68     		ldr	r3, [r7, #12]
+ 1775 0062 7A68     		ldr	r2, [r7, #4]
+ 1776 0064 1A63     		str	r2, [r3, #48]
+ 718:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
+ 1777              		.loc 1 718 0
+ 1778 0066 09E0     		b	.L166
+ 1779              	.L164:
+ 719:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       
+ 720:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_ABORT_CB_ID:
+ 721:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferAbortCallback = pCallback;
+ 1780              		.loc 1 721 0
+ 1781 0068 FB68     		ldr	r3, [r7, #12]
+ 1782 006a 7A68     		ldr	r2, [r7, #4]
+ 1783 006c 5A63     		str	r2, [r3, #52]
+ 722:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break; 
+ 1784              		.loc 1 722 0
+ 1785 006e 05E0     		b	.L166
+ 1786              	.L159:
+ 723:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       
+ 724:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     default:
+ 725:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       status = HAL_ERROR;
+ 1787              		.loc 1 725 0
+ 1788 0070 0123     		movs	r3, #1
+ 1789 0072 FB75     		strb	r3, [r7, #23]
+ 726:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;                                                            
+ 1790              		.loc 1 726 0
+ 1791 0074 00BF     		nop
+ 1792 0076 01E0     		b	.L166
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 45
+
+
+ 1793              	.L158:
+ 727:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 728:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 729:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 730:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 731:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     status = HAL_ERROR;
+ 1794              		.loc 1 731 0
+ 1795 0078 0123     		movs	r3, #1
+ 1796 007a FB75     		strb	r3, [r7, #23]
+ 1797              	.L166:
+ 732:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   } 
+ 733:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 734:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Release Lock */
+ 735:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_UNLOCK(hdma);
+ 1798              		.loc 1 735 0
+ 1799 007c FB68     		ldr	r3, [r7, #12]
+ 1800 007e 0022     		movs	r2, #0
+ 1801 0080 83F82020 		strb	r2, [r3, #32]
+ 736:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 737:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status;
+ 1802              		.loc 1 737 0
+ 1803 0084 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 1804              	.L157:
+ 738:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 1805              		.loc 1 738 0
+ 1806 0086 1846     		mov	r0, r3
+ 1807 0088 1C37     		adds	r7, r7, #28
+ 1808              	.LCFI46:
+ 1809              		.cfi_def_cfa_offset 4
+ 1810 008a BD46     		mov	sp, r7
+ 1811              	.LCFI47:
+ 1812              		.cfi_def_cfa_register 13
+ 1813              		@ sp needed
+ 1814 008c 80BC     		pop	{r7}
+ 1815              	.LCFI48:
+ 1816              		.cfi_restore 7
+ 1817              		.cfi_def_cfa_offset 0
+ 1818 008e 7047     		bx	lr
+ 1819              		.cfi_endproc
+ 1820              	.LFE72:
+ 1822              		.section	.text.HAL_DMA_UnRegisterCallback,"ax",%progbits
+ 1823              		.align	2
+ 1824              		.global	HAL_DMA_UnRegisterCallback
+ 1825              		.thumb
+ 1826              		.thumb_func
+ 1828              	HAL_DMA_UnRegisterCallback:
+ 1829              	.LFB73:
+ 739:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 740:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 741:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief UnRegister callbacks
+ 742:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 743:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *              the configuration information for the specified DMA Channel.
+ 744:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param CallbackID: User Callback identifer
+ 745:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                    a HAL_DMA_CallbackIDTypeDef ENUM as parameter.
+ 746:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 747:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */              
+ 748:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_UnRegisterCallback(DMA_HandleTypeDef *hdma, HAL_DMA_CallbackIDTypeDef Cal
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 46
+
+
+ 749:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 1830              		.loc 1 749 0
+ 1831              		.cfi_startproc
+ 1832              		@ args = 0, pretend = 0, frame = 16
+ 1833              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1834              		@ link register save eliminated.
+ 1835 0000 80B4     		push	{r7}
+ 1836              	.LCFI49:
+ 1837              		.cfi_def_cfa_offset 4
+ 1838              		.cfi_offset 7, -4
+ 1839 0002 85B0     		sub	sp, sp, #20
+ 1840              	.LCFI50:
+ 1841              		.cfi_def_cfa_offset 24
+ 1842 0004 00AF     		add	r7, sp, #0
+ 1843              	.LCFI51:
+ 1844              		.cfi_def_cfa_register 7
+ 1845 0006 7860     		str	r0, [r7, #4]
+ 1846 0008 0B46     		mov	r3, r1
+ 1847 000a FB70     		strb	r3, [r7, #3]
+ 750:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 1848              		.loc 1 750 0
+ 1849 000c 0023     		movs	r3, #0
+ 1850 000e FB73     		strb	r3, [r7, #15]
+ 751:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 752:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Process locked */
+ 753:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_LOCK(hdma);
+ 1851              		.loc 1 753 0
+ 1852 0010 7B68     		ldr	r3, [r7, #4]
+ 1853 0012 93F82030 		ldrb	r3, [r3, #32]	@ zero_extendqisi2
+ 1854 0016 012B     		cmp	r3, #1
+ 1855 0018 01D1     		bne	.L168
+ 1856              		.loc 1 753 0 is_stmt 0 discriminator 1
+ 1857 001a 0223     		movs	r3, #2
+ 1858 001c 40E0     		b	.L169
+ 1859              	.L168:
+ 1860              		.loc 1 753 0 discriminator 2
+ 1861 001e 7B68     		ldr	r3, [r7, #4]
+ 1862 0020 0122     		movs	r2, #1
+ 1863 0022 83F82020 		strb	r2, [r3, #32]
+ 754:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 755:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if(HAL_DMA_STATE_READY == hdma->State)
+ 1864              		.loc 1 755 0 is_stmt 1 discriminator 2
+ 1865 0026 7B68     		ldr	r3, [r7, #4]
+ 1866 0028 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 1867 002c 012B     		cmp	r3, #1
+ 1868 002e 30D1     		bne	.L170
+ 756:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 757:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     switch (CallbackID)
+ 1869              		.loc 1 757 0
+ 1870 0030 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 1871 0032 042B     		cmp	r3, #4
+ 1872 0034 29D8     		bhi	.L171
+ 1873 0036 01A2     		adr	r2, .L173
+ 1874 0038 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 1875              		.p2align 2
+ 1876              	.L173:
+ 1877 003c 51000000 		.word	.L172+1
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 47
+
+
+ 1878 0040 59000000 		.word	.L174+1
+ 1879 0044 61000000 		.word	.L175+1
+ 1880 0048 69000000 		.word	.L176+1
+ 1881 004c 71000000 		.word	.L177+1
+ 1882              		.p2align 1
+ 1883              	.L172:
+ 758:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
+ 759:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_CPLT_CB_ID:
+ 760:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferCpltCallback = NULL;
+ 1884              		.loc 1 760 0
+ 1885 0050 7B68     		ldr	r3, [r7, #4]
+ 1886 0052 0022     		movs	r2, #0
+ 1887 0054 9A62     		str	r2, [r3, #40]
+ 761:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;
+ 1888              		.loc 1 761 0
+ 1889 0056 1EE0     		b	.L179
+ 1890              	.L174:
+ 762:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 763:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_HALFCPLT_CB_ID:
+ 764:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferHalfCpltCallback = NULL;
+ 1891              		.loc 1 764 0
+ 1892 0058 7B68     		ldr	r3, [r7, #4]
+ 1893 005a 0022     		movs	r2, #0
+ 1894 005c DA62     		str	r2, [r3, #44]
+ 765:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
+ 1895              		.loc 1 765 0
+ 1896 005e 1AE0     		b	.L179
+ 1897              	.L175:
+ 766:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 767:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_ERROR_CB_ID:
+ 768:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback = NULL;
+ 1898              		.loc 1 768 0
+ 1899 0060 7B68     		ldr	r3, [r7, #4]
+ 1900 0062 0022     		movs	r2, #0
+ 1901 0064 1A63     		str	r2, [r3, #48]
+ 769:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
+ 1902              		.loc 1 769 0
+ 1903 0066 16E0     		b	.L179
+ 1904              	.L176:
+ 770:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 771:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_ABORT_CB_ID:
+ 772:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferAbortCallback = NULL;
+ 1905              		.loc 1 772 0
+ 1906 0068 7B68     		ldr	r3, [r7, #4]
+ 1907 006a 0022     		movs	r2, #0
+ 1908 006c 5A63     		str	r2, [r3, #52]
+ 773:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break; 
+ 1909              		.loc 1 773 0
+ 1910 006e 12E0     		b	.L179
+ 1911              	.L177:
+ 774:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 775:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case   HAL_DMA_XFER_ALL_CB_ID:
+ 776:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferCpltCallback = NULL;
+ 1912              		.loc 1 776 0
+ 1913 0070 7B68     		ldr	r3, [r7, #4]
+ 1914 0072 0022     		movs	r2, #0
+ 1915 0074 9A62     		str	r2, [r3, #40]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 48
+
+
+ 777:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferHalfCpltCallback = NULL;
+ 1916              		.loc 1 777 0
+ 1917 0076 7B68     		ldr	r3, [r7, #4]
+ 1918 0078 0022     		movs	r2, #0
+ 1919 007a DA62     		str	r2, [r3, #44]
+ 778:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback = NULL;
+ 1920              		.loc 1 778 0
+ 1921 007c 7B68     		ldr	r3, [r7, #4]
+ 1922 007e 0022     		movs	r2, #0
+ 1923 0080 1A63     		str	r2, [r3, #48]
+ 779:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferAbortCallback = NULL;
+ 1924              		.loc 1 779 0
+ 1925 0082 7B68     		ldr	r3, [r7, #4]
+ 1926 0084 0022     		movs	r2, #0
+ 1927 0086 5A63     		str	r2, [r3, #52]
+ 780:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break; 
+ 1928              		.loc 1 780 0
+ 1929 0088 05E0     		b	.L179
+ 1930              	.L171:
+ 781:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 782:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     default:
+ 783:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       status = HAL_ERROR;
+ 1931              		.loc 1 783 0
+ 1932 008a 0123     		movs	r3, #1
+ 1933 008c FB73     		strb	r3, [r7, #15]
+ 784:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;
+ 1934              		.loc 1 784 0
+ 1935 008e 00BF     		nop
+ 1936 0090 01E0     		b	.L179
+ 1937              	.L170:
+ 785:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     }
+ 786:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 787:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 788:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 789:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     status = HAL_ERROR;
+ 1938              		.loc 1 789 0
+ 1939 0092 0123     		movs	r3, #1
+ 1940 0094 FB73     		strb	r3, [r7, #15]
+ 1941              	.L179:
+ 790:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   } 
+ 791:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 792:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Release Lock */
+ 793:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   __HAL_UNLOCK(hdma);
+ 1942              		.loc 1 793 0
+ 1943 0096 7B68     		ldr	r3, [r7, #4]
+ 1944 0098 0022     		movs	r2, #0
+ 1945 009a 83F82020 		strb	r2, [r3, #32]
+ 794:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 795:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return status;
+ 1946              		.loc 1 795 0
+ 1947 009e FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 1948              	.L169:
+ 796:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 1949              		.loc 1 796 0
+ 1950 00a0 1846     		mov	r0, r3
+ 1951 00a2 1437     		adds	r7, r7, #20
+ 1952              	.LCFI52:
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 49
+
+
+ 1953              		.cfi_def_cfa_offset 4
+ 1954 00a4 BD46     		mov	sp, r7
+ 1955              	.LCFI53:
+ 1956              		.cfi_def_cfa_register 13
+ 1957              		@ sp needed
+ 1958 00a6 80BC     		pop	{r7}
+ 1959              	.LCFI54:
+ 1960              		.cfi_restore 7
+ 1961              		.cfi_def_cfa_offset 0
+ 1962 00a8 7047     		bx	lr
+ 1963              		.cfi_endproc
+ 1964              	.LFE73:
+ 1966 00aa 00BF     		.section	.text.HAL_DMA_GetState,"ax",%progbits
+ 1967              		.align	2
+ 1968              		.global	HAL_DMA_GetState
+ 1969              		.thumb
+ 1970              		.thumb_func
+ 1972              	HAL_DMA_GetState:
+ 1973              	.LFB74:
+ 797:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   
+ 798:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 799:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @}
+ 800:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 801:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 802:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions_Group3 Peripheral State and Errors functions
+ 803:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *  @brief    Peripheral State and Errors functions
+ 804:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *
+ 805:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @verbatim
+ 806:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================
+ 807:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****             ##### Peripheral State and Errors functions #####
+ 808:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****  ===============================================================================  
+ 809:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
+ 810:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     This subsection provides functions allowing to
+ 811:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Check the DMA state
+ 812:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Get error code
+ 813:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 814:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** @endverbatim
+ 815:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 816:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 817:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 818:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 819:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Return the DMA hande state.
+ 820:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
+ 821:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
+ 822:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL state
+ 823:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 824:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_DMA_StateTypeDef HAL_DMA_GetState(DMA_HandleTypeDef *hdma)
+ 825:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 1974              		.loc 1 825 0
+ 1975              		.cfi_startproc
+ 1976              		@ args = 0, pretend = 0, frame = 8
+ 1977              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1978              		@ link register save eliminated.
+ 1979 0000 80B4     		push	{r7}
+ 1980              	.LCFI55:
+ 1981              		.cfi_def_cfa_offset 4
+ 1982              		.cfi_offset 7, -4
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 50
+
+
+ 1983 0002 83B0     		sub	sp, sp, #12
+ 1984              	.LCFI56:
+ 1985              		.cfi_def_cfa_offset 16
+ 1986 0004 00AF     		add	r7, sp, #0
+ 1987              	.LCFI57:
+ 1988              		.cfi_def_cfa_register 7
+ 1989 0006 7860     		str	r0, [r7, #4]
+ 826:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Return DMA handle state */
+ 827:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return hdma->State;
+ 1990              		.loc 1 827 0
+ 1991 0008 7B68     		ldr	r3, [r7, #4]
+ 1992 000a 93F82130 		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 828:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 1993              		.loc 1 828 0
+ 1994 000e 1846     		mov	r0, r3
+ 1995 0010 0C37     		adds	r7, r7, #12
+ 1996              	.LCFI58:
+ 1997              		.cfi_def_cfa_offset 4
+ 1998 0012 BD46     		mov	sp, r7
+ 1999              	.LCFI59:
+ 2000              		.cfi_def_cfa_register 13
+ 2001              		@ sp needed
+ 2002 0014 80BC     		pop	{r7}
+ 2003              	.LCFI60:
+ 2004              		.cfi_restore 7
+ 2005              		.cfi_def_cfa_offset 0
+ 2006 0016 7047     		bx	lr
+ 2007              		.cfi_endproc
+ 2008              	.LFE74:
+ 2010              		.section	.text.HAL_DMA_GetError,"ax",%progbits
+ 2011              		.align	2
+ 2012              		.global	HAL_DMA_GetError
+ 2013              		.thumb
+ 2014              		.thumb_func
+ 2016              	HAL_DMA_GetError:
+ 2017              	.LFB75:
+ 829:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 830:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 831:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Return the DMA error code.
+ 832:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma : pointer to a DMA_HandleTypeDef structure that contains
+ 833:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *              the configuration information for the specified DMA Channel.
+ 834:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval DMA Error Code
+ 835:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 836:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** uint32_t HAL_DMA_GetError(DMA_HandleTypeDef *hdma)
+ 837:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 2018              		.loc 1 837 0
+ 2019              		.cfi_startproc
+ 2020              		@ args = 0, pretend = 0, frame = 8
+ 2021              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2022              		@ link register save eliminated.
+ 2023 0000 80B4     		push	{r7}
+ 2024              	.LCFI61:
+ 2025              		.cfi_def_cfa_offset 4
+ 2026              		.cfi_offset 7, -4
+ 2027 0002 83B0     		sub	sp, sp, #12
+ 2028              	.LCFI62:
+ 2029              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 51
+
+
+ 2030 0004 00AF     		add	r7, sp, #0
+ 2031              	.LCFI63:
+ 2032              		.cfi_def_cfa_register 7
+ 2033 0006 7860     		str	r0, [r7, #4]
+ 838:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   return hdma->ErrorCode;
+ 2034              		.loc 1 838 0
+ 2035 0008 7B68     		ldr	r3, [r7, #4]
+ 2036 000a 9B6B     		ldr	r3, [r3, #56]
+ 839:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 2037              		.loc 1 839 0
+ 2038 000c 1846     		mov	r0, r3
+ 2039 000e 0C37     		adds	r7, r7, #12
+ 2040              	.LCFI64:
+ 2041              		.cfi_def_cfa_offset 4
+ 2042 0010 BD46     		mov	sp, r7
+ 2043              	.LCFI65:
+ 2044              		.cfi_def_cfa_register 13
+ 2045              		@ sp needed
+ 2046 0012 80BC     		pop	{r7}
+ 2047              	.LCFI66:
+ 2048              		.cfi_restore 7
+ 2049              		.cfi_def_cfa_offset 0
+ 2050 0014 7047     		bx	lr
+ 2051              		.cfi_endproc
+ 2052              	.LFE75:
+ 2054 0016 00BF     		.section	.text.DMA_SetConfig,"ax",%progbits
+ 2055              		.align	2
+ 2056              		.thumb
+ 2057              		.thumb_func
+ 2059              	DMA_SetConfig:
+ 2060              	.LFB76:
+ 840:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 841:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 842:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @}
+ 843:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 844:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 845:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 846:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @}
+ 847:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 848:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 849:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /** @addtogroup DMA_Private_Functions
+ 850:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @{
+ 851:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 852:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 853:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
+ 854:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Sets the DMA Transfer parameter.
+ 855:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma:       pointer to a DMA_HandleTypeDef structure that contains
+ 856:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *                     the configuration information for the specified DMA Channel.
+ 857:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  SrcAddress: The source memory Buffer address
+ 858:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DstAddress: The destination memory Buffer address
+ 859:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DataLength: The length of data to be transferred from source to destination
+ 860:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
+ 861:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
+ 862:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32
+ 863:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** {
+ 2061              		.loc 1 863 0
+ 2062              		.cfi_startproc
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 52
+
+
+ 2063              		@ args = 0, pretend = 0, frame = 16
+ 2064              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2065              		@ link register save eliminated.
+ 2066 0000 80B4     		push	{r7}
+ 2067              	.LCFI67:
+ 2068              		.cfi_def_cfa_offset 4
+ 2069              		.cfi_offset 7, -4
+ 2070 0002 85B0     		sub	sp, sp, #20
+ 2071              	.LCFI68:
+ 2072              		.cfi_def_cfa_offset 24
+ 2073 0004 00AF     		add	r7, sp, #0
+ 2074              	.LCFI69:
+ 2075              		.cfi_def_cfa_register 7
+ 2076 0006 F860     		str	r0, [r7, #12]
+ 2077 0008 B960     		str	r1, [r7, #8]
+ 2078 000a 7A60     		str	r2, [r7, #4]
+ 2079 000c 3B60     		str	r3, [r7]
+ 864:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Clear all flags */
+ 865:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->DmaBaseAddress->IFCR = (DMA_ISR_GIF1 << hdma->ChannelIndex);
+ 2080              		.loc 1 865 0
+ 2081 000e FB68     		ldr	r3, [r7, #12]
+ 2082 0010 DB6B     		ldr	r3, [r3, #60]
+ 2083 0012 FA68     		ldr	r2, [r7, #12]
+ 2084 0014 126C     		ldr	r2, [r2, #64]
+ 2085 0016 0121     		movs	r1, #1
+ 2086 0018 01FA02F2 		lsl	r2, r1, r2
+ 2087 001c 5A60     		str	r2, [r3, #4]
+ 866:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 867:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Configure DMA Channel data length */
+ 868:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CNDTR = DataLength;
+ 2088              		.loc 1 868 0
+ 2089 001e FB68     		ldr	r3, [r7, #12]
+ 2090 0020 1B68     		ldr	r3, [r3]
+ 2091 0022 3A68     		ldr	r2, [r7]
+ 2092 0024 5A60     		str	r2, [r3, #4]
+ 869:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 870:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Memory to Peripheral */
+ 871:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   if((hdma->Init.Direction) == DMA_MEMORY_TO_PERIPH)
+ 2093              		.loc 1 871 0
+ 2094 0026 FB68     		ldr	r3, [r7, #12]
+ 2095 0028 5B68     		ldr	r3, [r3, #4]
+ 2096 002a 102B     		cmp	r3, #16
+ 2097 002c 08D1     		bne	.L185
+ 872:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 873:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure DMA Channel destination address */
+ 874:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->Instance->CPAR = DstAddress;
+ 2098              		.loc 1 874 0
+ 2099 002e FB68     		ldr	r3, [r7, #12]
+ 2100 0030 1B68     		ldr	r3, [r3]
+ 2101 0032 7A68     		ldr	r2, [r7, #4]
+ 2102 0034 9A60     		str	r2, [r3, #8]
+ 875:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 876:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure DMA Channel source address */
+ 877:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->Instance->CMAR = SrcAddress;
+ 2103              		.loc 1 877 0
+ 2104 0036 FB68     		ldr	r3, [r7, #12]
+ 2105 0038 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 53
+
+
+ 2106 003a BA68     		ldr	r2, [r7, #8]
+ 2107 003c DA60     		str	r2, [r3, #12]
+ 878:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 879:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Peripheral to Memory */
+ 880:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else
+ 881:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
+ 882:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure DMA Channel source address */
+ 883:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->Instance->CPAR = SrcAddress;
+ 884:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 885:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Configure DMA Channel destination address */
+ 886:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     hdma->Instance->CMAR = DstAddress;
+ 887:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 888:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** }
+ 2108              		.loc 1 888 0
+ 2109 003e 07E0     		b	.L187
+ 2110              	.L185:
+ 883:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
+ 2111              		.loc 1 883 0
+ 2112 0040 FB68     		ldr	r3, [r7, #12]
+ 2113 0042 1B68     		ldr	r3, [r3]
+ 2114 0044 BA68     		ldr	r2, [r7, #8]
+ 2115 0046 9A60     		str	r2, [r3, #8]
+ 886:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
+ 2116              		.loc 1 886 0
+ 2117 0048 FB68     		ldr	r3, [r7, #12]
+ 2118 004a 1B68     		ldr	r3, [r3]
+ 2119 004c 7A68     		ldr	r2, [r7, #4]
+ 2120 004e DA60     		str	r2, [r3, #12]
+ 2121              	.L187:
+ 2122              		.loc 1 888 0
+ 2123 0050 00BF     		nop
+ 2124 0052 1437     		adds	r7, r7, #20
+ 2125              	.LCFI70:
+ 2126              		.cfi_def_cfa_offset 4
+ 2127 0054 BD46     		mov	sp, r7
+ 2128              	.LCFI71:
+ 2129              		.cfi_def_cfa_register 13
+ 2130              		@ sp needed
+ 2131 0056 80BC     		pop	{r7}
+ 2132              	.LCFI72:
+ 2133              		.cfi_restore 7
+ 2134              		.cfi_def_cfa_offset 0
+ 2135 0058 7047     		bx	lr
+ 2136              		.cfi_endproc
+ 2137              	.LFE76:
+ 2139 005a 00BF     		.text
+ 2140              	.Letext0:
+ 2141              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\mach
+ 2142              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\sys\
+ 2143              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 2144              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h"
+ 2145              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 2146              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 2147              		.file 8 "Drivers/CMSIS/Include/core_cm3.h"
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 54
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f1xx_hal_dma.c
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:20     .text.HAL_DMA_Init:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:25     .text.HAL_DMA_Init:00000000 HAL_DMA_Init
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:172    .text.HAL_DMA_Init:000000c0 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:179    .text.HAL_DMA_DeInit:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:184    .text.HAL_DMA_DeInit:00000000 HAL_DMA_DeInit
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:294    .text.HAL_DMA_DeInit:00000094 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:301    .text.HAL_DMA_Start:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:306    .text.HAL_DMA_Start:00000000 HAL_DMA_Start
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:2059   .text.DMA_SetConfig:00000000 DMA_SetConfig
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:405    .text.HAL_DMA_Start_IT:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:410    .text.HAL_DMA_Start_IT:00000000 HAL_DMA_Start_IT
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:541    .text.HAL_DMA_Abort:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:546    .text.HAL_DMA_Abort:00000000 HAL_DMA_Abort
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:619    .text.HAL_DMA_Abort_IT:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:624    .text.HAL_DMA_Abort_IT:00000000 HAL_DMA_Abort_IT
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:781    .text.HAL_DMA_Abort_IT:000000dc $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:792    .text.HAL_DMA_PollForTransfer:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:797    .text.HAL_DMA_PollForTransfer:00000000 HAL_DMA_PollForTransfer
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1234   .text.HAL_DMA_PollForTransfer:000002a4 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1243   .text.HAL_DMA_PollForTransfer:000002c0 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1335   .text.HAL_DMA_PollForTransfer:00000344 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1346   .text.HAL_DMA_IRQHandler:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1351   .text.HAL_DMA_IRQHandler:00000000 HAL_DMA_IRQHandler
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1687   .text.HAL_DMA_IRQHandler:00000208 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1698   .text.HAL_DMA_RegisterCallback:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1703   .text.HAL_DMA_RegisterCallback:00000000 HAL_DMA_RegisterCallback
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1753   .text.HAL_DMA_RegisterCallback:00000040 $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1757   .text.HAL_DMA_RegisterCallback:00000050 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1823   .text.HAL_DMA_UnRegisterCallback:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1828   .text.HAL_DMA_UnRegisterCallback:00000000 HAL_DMA_UnRegisterCallback
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1877   .text.HAL_DMA_UnRegisterCallback:0000003c $d
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1882   .text.HAL_DMA_UnRegisterCallback:00000050 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1967   .text.HAL_DMA_GetState:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:1972   .text.HAL_DMA_GetState:00000000 HAL_DMA_GetState
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:2011   .text.HAL_DMA_GetError:00000000 $t
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:2016   .text.HAL_DMA_GetError:00000000 HAL_DMA_GetError
+C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s:2055   .text.DMA_SetConfig:00000000 $t
+                     .debug_frame:00000010 $d
+                           .group:00000000 wm4.0.8e003669b0c71c0a33544209f61bc06c
+                           .group:00000000 wm4.main.h.42.3e9602f258f21c216c24749e16771da2
+                           .group:00000000 wm4.stm32f1xx_hal_conf.h.52.694831360934fa22cef97aea9ad52ec0
+                           .group:00000000 wm4.stm32f1xx.h.57.c2a10934f4c6830aeb7e4997f02806f1
+                           .group:00000000 wm4.stm32f103xb.h.56.66305a77cea9d5300aac997a78930076
+                           .group:00000000 wm4._newlib_version.h.4.ad342815780c8db09778091a421b5b5b
+                           .group:00000000 wm4.features.h.33.d97f2d646536517df901beeb5b9993f5
+                           .group:00000000 wm4._default_types.h.15.933e8edd27a65e0b69af4a865eb623d2
+                           .group:00000000 wm4._intsup.h.10.b82bf99f69d6a5c085fc866de0d3eb9b
+                           .group:00000000 wm4._stdint.h.10.7a5f60e6741af4a5594a3867d347e1f9
+                           .group:00000000 wm4.stdint.h.23.373a9d32a9e4c2e88fd347156532d281
+                           .group:00000000 wm4.core_cm3.h.74.7d5fecd6d4522d755d10a23d1542f805
+                           .group:00000000 wm4.cmsis_gcc.h.36.67d2dcde6a14ff518eedc1d545d89a76
+                           .group:00000000 wm4.core_cm3.h.175.a6c441adf1a05ce96eea3cf78e6687ab
+                           .group:00000000 wm4.stm32f103xb.h.619.382b3c85cac6f0350ee5bfaff32e1ebc
+                           .group:00000000 wm4.stm32f1xx.h.180.c0013e6ebd6ad07f67c298190b8eac92
+                           .group:00000000 wm4.newlib.h.8.36dd0417407b0a085bc04c49cc2ed13a
+ARM GAS  C:\Users\MATEUS~1\AppData\Local\Temp\cco8Qh1c.s 			page 55
+
+
+                           .group:00000000 wm4.config.h.219.65a553ab5bef5482f0d7880b0d33015e
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stdio.h.31.7c0e28c411445f3f9c5b11accf882760
+                           .group:00000000 wm4.stddef.h.187.2ff233552538c6ff9b8575ca8ea52cb3
+                           .group:00000000 wm4.cdefs.h.47.ba62642086d429b4f95c2381cae1c0aa
+                           .group:00000000 wm4.stddef.h.39.ec95e8feac892e292b69dc7ae75b0d64
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.lock.h.2.9bc98482741e5e2a9450b12934a684ea
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.183.c226d164ceca1f2ecb9ae9360c54a098
+                           .group:00000000 wm4.reent.h.17.23b059516345f8f5abfa01ddc379570f
+                           .group:00000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.30.0e8bfd94e85db17dda3286ee81496fe6
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.30.bbece7fa40993a78092dcc5805132560
+                           .group:00000000 wm4.types.h.69.ed3eae3cf73030a737515151ebcab7a1
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.8188691c2279eac7a223caa50f6694b9
+                           .group:00000000 wm4.stm32f1xx_hal_def.h.75.49f74f1b76b21b32115f01d919dedfe9
+                           .group:00000000 wm4.stm32f1xx_hal_rcc.h.110.e8776981928b0b5f4b34a0798958a52d
+                           .group:00000000 wm4.stm32f1xx_hal_rcc_ex.h.38.d69020e892acea139e28d501e199a898
+                           .group:00000000 wm4.stm32f1xx_hal_rcc.h.1217.4363bfbab2bddd7821442b2bd7309b62
+                           .group:00000000 wm4.stm32f1xx_hal_gpio.h.38.154e4ee32f1e606c3d2bf481de68fa8f
+                           .group:00000000 wm4.stm32f1xx_hal_gpio_ex.h.38.b1760b0a36205a773f96b64105bf573b
+                           .group:00000000 wm4.stm32f1xx_hal_gpio.h.279.f7fb4bf14b992a51de3ea5920d36cbc8
+                           .group:00000000 wm4.stm32f1xx_hal_dma.h.38.7ba73d8fbb5802987cd3c94d3cb2acfc
+                           .group:00000000 wm4.stm32f1xx_hal_dma_ex.h.38.c1f016a34e6785541786945b74870a35
+                           .group:00000000 wm4.stm32f1xx_hal_dma.h.425.ea703e7b8c2a94afae7354b55b709b4c
+                           .group:00000000 wm4.stm32f1xx_hal_cortex.h.38.886490b3101139066008b34124bf11c4
+                           .group:00000000 wm4.stm32f1xx_hal_flash.h.38.bef5191653b2e1c62feeefaeb5a5cc36
+                           .group:00000000 wm4.stm32f1xx_hal_flash_ex.h.38.e594fb3e52b67489b87423fe0ced0812
+                           .group:00000000 wm4.stm32f1xx_hal_pwr.h.38.f2410f2a88433ca6e6e66491f47a406f
+                           .group:00000000 wm4.stm32f1xx_hal.h.101.c80f672c38b2f88a7deb75929f9f6bbe
+
+UNDEFINED SYMBOLS
+HAL_GetTick
