@@ -39,11 +39,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "rtc.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
 
 #include "encoder.h"
+#include "hd44780.h"
+#include <stdbool.h>
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -64,9 +69,35 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 
-void encoder_x_event_handler(struct encoder_s *p_encoder, encoder_event_t event_t) {
+volatile int pos = 0;
+volatile int clicks = 0;
+volatile bool lcd_refresh_request = false;
+volatile bool x_axis_running = false;
+volatile bool update_x_axis_pwm_request = false;
+char line1[16];
+char line2[16];
 
+void encoder_x_event_handler(struct encoder_s *p_encoder, encoder_event_t event) {
+
+	if(event == ENCODER_PUSH) {
+		clicks++;
+		x_axis_running = !x_axis_running;
+		update_x_axis_pwm_request = true;
+	} else if(event == ENCODER_FORWARD) {
+		pos++;
+	} else if(event == ENCODER_BACKWARD) {
+		pos--;
+	} else {
+		return;
+	}
+
+	memset(line1, 0, sizeof(line1));
+	memset(line2, 0, sizeof(line2));
+	sprintf(line1, "POS: %d", pos);
+	sprintf(line2, "CLK: %d", clicks);
+	lcd_refresh_request = true;
 }
+
 
 encoder_t encoder_x = {
 		.port_a = GPIOC,
@@ -77,6 +108,8 @@ encoder_t encoder_x = {
 		.pin_btn = GPIO_PIN_13,
 		.event_handler = encoder_x_event_handler,
 };
+
+extern TIM_HandleTypeDef htim1;
 
 /* USER CODE END 0 */
 
@@ -109,8 +142,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_RTC_Init();
+  MX_TIM1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
+
+  lcd_reset();
+  lcd_clear();
+  lcd_display_settings(1, 0, 0);
+  lcd_write('A', 1);
+  lcd_display_address(0x00);
+  lcd_print("TEST");
 
   /* USER CODE END 2 */
 
@@ -118,6 +161,25 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  if(update_x_axis_pwm_request) {
+		  update_x_axis_pwm_request = false;
+		  if(x_axis_running) {
+			  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+		  } else {
+			  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+		  }
+	  }
+
+	  if(lcd_refresh_request) {
+		  lcd_refresh_request = false;
+		  lcd_clear();
+		  lcd_display_address(0x00);
+		  lcd_print(line1);
+		  lcd_display_address(0x40);
+		  lcd_print(line2);
+	  }
+
 
   /* USER CODE END WHILE */
 
@@ -137,13 +199,17 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -153,12 +219,19 @@ void SystemClock_Config(void)
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }

@@ -14,12 +14,13 @@ void encoder_gpio_event(encoder_t *p_encoder, GPIO_TypeDef *port, uint32_t pin) 
 
 	if((port == p_encoder->port_a && pin == p_encoder->pin_a) || (port == p_encoder->port_b && pin == p_encoder->pin_b)) {
 		if( state_a && !state_b ) { // forward
-			event = ENCODER_BACKWARD;
+			event = ENCODER_FORWARD;
 
 		} else if(!state_a && state_b) { // backward
-			event = ENCODER_FORWARD;
+			event = ENCODER_BACKWARD;
 		}
 	} else if(port == p_encoder->port_btn && pin == p_encoder->pin_btn) {
+		event = (!state_btn)? ENCODER_PUSH : ENCODER_RELASE;
 	}
 
 	if(event != -1) {
