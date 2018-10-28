@@ -49,6 +49,36 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define DIRH_Pin GPIO_PIN_7
+#define DIRH_GPIO_Port GPIOA
+#define MOVL_Pin GPIO_PIN_0
+#define MOVL_GPIO_Port GPIOB
+#define MOVL_EXTI_IRQn EXTI0_IRQn
+#define MOVU_Pin GPIO_PIN_1
+#define MOVU_GPIO_Port GPIOB
+#define MOVU_EXTI_IRQn EXTI1_IRQn
+#define MOVD_Pin GPIO_PIN_10
+#define MOVD_GPIO_Port GPIOB
+#define MOVD_EXTI_IRQn EXTI15_10_IRQn
+#define MOVR_Pin GPIO_PIN_11
+#define MOVR_GPIO_Port GPIOB
+#define MOVR_EXTI_IRQn EXTI15_10_IRQn
+#define STEPV_Pin GPIO_PIN_8
+#define STEPV_GPIO_Port GPIOA
+#define DIRV_Pin GPIO_PIN_4
+#define DIRV_GPIO_Port GPIOB
+#define STEPH_Pin GPIO_PIN_6
+#define STEPH_GPIO_Port GPIOB
+#define ENC_SW_Pin GPIO_PIN_7
+#define ENC_SW_GPIO_Port GPIOB
+#define ENC_SW_EXTI_IRQn EXTI9_5_IRQn
+#define ENCY_SW_Pin GPIO_PIN_8
+#define ENCY_SW_GPIO_Port GPIOB
+#define ENCY_SW_EXTI_IRQn EXTI9_5_IRQn
+#define ENCX_SW_Pin GPIO_PIN_9
+#define ENCX_SW_GPIO_Port GPIOB
+#define ENCX_SW_EXTI_IRQn EXTI9_5_IRQn
+
 /* ########################## Assert Selection ############################## */
 /**
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 

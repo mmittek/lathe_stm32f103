@@ -1,0 +1,73 @@
+Configuration	lathe
+STM32CubeMX 	4.27.0
+Date	10/28/2018
+MCU	STM32F103C8Tx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+RTC	Activate Clock Source	RTC_VS_RTC_Activate	VP_RTC_VS_RTC_Activate
+RTC	No RTC Output	RTC_No_RTC_Output	VP_RTC_No_RTC_Output
+SYS	JTAG (4 pins)	SYS_JTCK-SWCLK	PA14
+SYS	JTAG (4 pins)	SYS_JTDI	PA15
+SYS	JTAG (4 pins)	SYS_JTDO-TRACESWO	PB3
+SYS	JTAG (4 pins)	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM1	Internal Clock	TIM1_VS_ClockSourceINT	VP_TIM1_VS_ClockSourceINT
+TIM1	PWM Generation CH1	TIM1_CH1	PA8
+TIM4	Internal Clock	TIM4_VS_ClockSourceINT	VP_TIM4_VS_ClockSourceINT
+TIM4	PWM Generation CH1	TIM4_CH1	PB6
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13-TAMPER-RTC	GPIO_EXTI13	
+3	PC14-OSC32_IN	GPIO_EXTI14	
+10	PA0-WKUP	GPIO_Output	
+11	PA1	GPIO_Output	
+12	PA2	GPIO_Output	
+13	PA3	GPIO_Output	
+14	PA4	GPIO_Output	
+15	PA5	GPIO_Output	
+17	PA7	GPIO_Output	DIRH
+18	PB0	GPIO_EXTI0	MOVL
+19	PB1	GPIO_EXTI1	MOVU
+21	PB10	GPIO_EXTI10	MOVD
+22	PB11	GPIO_EXTI11	MOVR
+29	PA8	TIM1_CH1	STEPV
+34	PA13	SYS_JTMS-SWDIO	
+37	PA14	SYS_JTCK-SWCLK	
+38	PA15	SYS_JTDI	
+39	PB3	SYS_JTDO-TRACESWO	
+40	PB4	GPIO_Output	DIRV
+42	PB6	TIM4_CH1	STEPH
+43	PB7	GPIO_EXTI7	ENC_SW
+45	PB8	GPIO_EXTI8	ENCY_SW
+46	PB9	GPIO_EXTI9	ENCX_SW
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : lathe
+Project Folder : D:\GitHub\lathe_stm32f103\lathe
+Toolchain / IDE : Makefile
+Firmware Package Name and Version : STM32Cube FW_F1 V1.6.1
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy all used libraries into the project folder
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : Yes
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+

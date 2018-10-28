@@ -38,11 +38,19 @@
 /* USER CODE BEGIN 0 */
 #include "encoder.h"
 #include "gpio.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include "lathe.h"
 
 extern encoder_t encoder_x;
+extern volatile bool x_axis_running;
+extern volatile bool update_x_axis_pwm_request;
+extern volatile bool lcd_refresh_request;
+extern lathe_t lathe;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim1;
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
@@ -195,18 +203,81 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles EXTI line0 interrupt.
+*/
+void EXTI0_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
+
+  /* USER CODE END EXTI0_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  /* USER CODE BEGIN EXTI0_IRQn 1 */
+
+  if(HAL_GPIO_ReadPin( GPIOB, GPIO_PIN_0 )) {
+	  lathe_stop_x(&lathe);
+  } else {
+	  lathe_start_x(&lathe, -1);
+  }
+
+
+  /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
 * @brief This function handles EXTI line1 interrupt.
 */
 void EXTI1_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI1_IRQn 0 */
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1) != RESET) encoder_gpio_event(&encoder_x, GPIOB, GPIO_PIN_1);
 
   /* USER CODE END EXTI1_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
   /* USER CODE BEGIN EXTI1_IRQn 1 */
+  if(HAL_GPIO_ReadPin( GPIOB, GPIO_PIN_1 )) {
+	  lathe_stop_y(&lathe);
+  } else {
+	  lathe_start_y(&lathe, 1);
+  }
 
   /* USER CODE END EXTI1_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[9:5] interrupts.
+*/
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+  if(!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_9)) {
+	  lathe_toggle_speed_x(&lathe);
+  }
+
+  if(!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8)) {
+	  lathe_toggle_speed_y(&lathe);
+  }
+  lcd_refresh_request = true;
+  /* USER CODE END EXTI9_5_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM1 update interrupt.
+*/
+void TIM1_UP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_IRQn 0 */
+
+  /* USER CODE END TIM1_UP_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_UP_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_IRQn 1 */
 }
 
 /**
@@ -216,14 +287,28 @@ void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_13) != RESET) encoder_gpio_event(&encoder_x, GPIOC, GPIO_PIN_13);
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_14) != RESET) encoder_gpio_event(&encoder_x, GPIOC, GPIO_PIN_14);
+
 
 
   /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  if(HAL_GPIO_ReadPin( GPIOB, GPIO_PIN_11 )) {
+	  lathe_stop_x(&lathe);
+  } else {
+	  lathe_start_x(&lathe, 1);
+  }
+
+  if(HAL_GPIO_ReadPin( GPIOB, GPIO_PIN_10 )) {
+	  lathe_stop_y(&lathe);
+  } else {
+	  lathe_start_y(&lathe, -1);
+  }
+
 
   /* USER CODE END EXTI15_10_IRQn 1 */
 }

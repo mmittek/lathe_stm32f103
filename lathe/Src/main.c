@@ -49,6 +49,8 @@
 #include "hd44780.h"
 #include <stdbool.h>
 #include <string.h>
+#include <stdint.h>
+#include "lathe.h"
 
 /* USER CODE END Includes */
 
@@ -69,7 +71,8 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 
-volatile int pos = 0;
+volatile int posx = 0;
+volatile int posy = 0;
 volatile int clicks = 0;
 volatile bool lcd_refresh_request = false;
 volatile bool x_axis_running = false;
@@ -84,16 +87,16 @@ void encoder_x_event_handler(struct encoder_s *p_encoder, encoder_event_t event)
 		x_axis_running = !x_axis_running;
 		update_x_axis_pwm_request = true;
 	} else if(event == ENCODER_FORWARD) {
-		pos++;
+		posx++;
 	} else if(event == ENCODER_BACKWARD) {
-		pos--;
+		posx--;
 	} else {
 		return;
 	}
 
 	memset(line1, 0, sizeof(line1));
 	memset(line2, 0, sizeof(line2));
-	sprintf(line1, "POS: %d", pos);
+	sprintf(line1, "X: %d, Y:%d", posx, posy);
 	sprintf(line2, "CLK: %d", clicks);
 	lcd_refresh_request = true;
 }
@@ -107,6 +110,15 @@ encoder_t encoder_x = {
 		.port_btn = GPIOC,
 		.pin_btn = GPIO_PIN_13,
 		.event_handler = encoder_x_event_handler,
+};
+
+lathe_t lathe = {
+		.p_timer_x = &htim1,
+		.p_timer_y = &htim4,
+		.x_moving = false,
+		.y_moving = false,
+		.speed_x = 0,
+		.speed_y = 0,
 };
 
 extern TIM_HandleTypeDef htim1;
@@ -161,17 +173,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-	  if(update_x_axis_pwm_request) {
-		  update_x_axis_pwm_request = false;
-		  if(x_axis_running) {
-			  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-		  } else {
-			  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-		  }
-	  }
-
 	  if(lcd_refresh_request) {
+		  sprintf(&(line1[0]), "SPD: %d, %d", lathe.speed_x, lathe.speed_y);
 		  lcd_refresh_request = false;
 		  lcd_clear();
 		  lcd_display_address(0x00);
